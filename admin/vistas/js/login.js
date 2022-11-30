@@ -50,7 +50,7 @@ function validar_response(e) {
 
             if (redirecinando.file == '' || redirecinando.file == null ) {
                 //console.log('vacio perrro');
-                $(location).attr("href","escritorio.php");
+                $(location).attr("href","index.html");
             } else {
                 //console.log(redirecinando.file);
                 $(location).attr("href",redirecinando.file);                                
