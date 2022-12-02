@@ -2,6 +2,7 @@
 :root {
     --primary: #348E38;
     --secondary: #525368;
+    text-align: justify;
     --light: #E8F5E9;
     --dark: #0F4229;
 }
@@ -19,6 +20,7 @@ h1,
 h2,
 .h2,
 .fw-bold {
+    text-align: left;
     font-weight: 700 !important;
 }
 
@@ -27,6 +29,7 @@ h3,
 h4,
 .h4,
 .fw-medium {
+    text-align: left;
     font-weight: 600 !important;
 }
 
@@ -234,7 +237,7 @@ h6,
 /*** Service ***/
 .service-item {
     position: relative;
-    text-align: center;
+    text-align: justify;
 }
 
 .service-item .service-img {
