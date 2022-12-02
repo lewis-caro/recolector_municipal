@@ -9,6 +9,9 @@
 
     <title>Gentelella Alela! | </title>
 
+    <link rel="apple-touch-icon" href="../dist/svg/logo-icono.svg">
+    <link rel="shortcut icon" href="../dist/svg/logo-icono.svg">
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
     <!-- Font Awesome -->
@@ -20,17 +23,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
     
-    <!-- Bootstrap -->
-    <link href="../plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="../plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../plugins/nprogress/nprogress.css" rel="stylesheet">
-    <!-- Animate.css -->
-    <link href="../plugins/animate.css/animate.min.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    
 
     <style>
       .btn-outline-warning {
@@ -59,9 +52,9 @@
           </div>
           <p class="login-box-msg">Ingrese sus credenciales para ingresar al sistema.</p>
 
-          <form method="post" id="frmAcceso" autocomplet="off">
+          <form method="post" autocomplet="off" id="frmAcceso">
             <div class="input-group mb-3">
-              <input type="text" id="logina" name="logina" autocomplete="off" class="form-control" placeholder="Usuario" required />
+              <input type="text" id="logina" name="logina"  class="form-control" placeholder="Usuario" required autocomplet="off" />
               <div class="input-group-append">
                 <div class="input-group-text" style="background: linear-gradient(to right, #ffffff 10%, #ea2222 100%);">
                   <span class="fa fa-user" style="color: #040404;"></span>
@@ -69,7 +62,7 @@
               </div>
             </div>
             <div class="input-group mb-3 ">
-              <input type="password" id="clavea" name="clavea" autocomplete="off" class="form-control" placeholder="Password" required />
+              <input type="password" id="clavea" name="clavea"  class="form-control" placeholder="Password" required autocomplet="off"/>
               <div class="input-group-append">
                 <div class="input-group-text" style="background: linear-gradient(to right, #ffffff 10%, #139a1a 100%);">
                   <span class="fas fa-lock" style="color: #040404;"></span>
@@ -81,6 +74,9 @@
                 <button type="submit" class="btn btn-outline-success btn-block login-btn">Ingresar</button>
                 <!-- <input type="submit" value="Ingresar" class="btn btn-outline-warning btn-block login-btn" /> -->
               </div>
+
+              <!--Alerta de conteo de inicio de sesión incorrecto-->
+              <div align="center" class="alert" id="mensaje" style="display: none; width: 100%; font-size: 20px;"></div>
               <!-- /.col -->
             </div>
           </form>
@@ -88,6 +84,7 @@
         <!-- /.login-card-body -->
       </div>
     </div>
+
 
     <!-- jQuery -->
     <script src="../plugins/jquery/dist/jquery.min.js"></script>
@@ -117,6 +114,8 @@
         });
       });
     </script>
-    <script type="text/javascript" src="js/login.js"></script>
+
+   
+    <script type="text/javascript" src="../vistas/scripts/login.js"></script>
   </body>
 </html>
