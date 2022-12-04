@@ -20,10 +20,20 @@
 
             <?php $title = "Usuarios"; require 'head.php'; ?>
 
+            <style>
+                .body {
+                    color: #34322d !important;
+                    border-color: #139a1a !important;
+                    background: #139a1a;
+                    background-repeat: no-repeat; background-size: cover;
+                }
+              
+            </style>
+
         </head>
 
         <body class="nav-md">
-            <div class="container body">
+            <div class="container body" style="background: #432345">
             <div class="main_container">
                 
                 <?php 
@@ -62,7 +72,17 @@
                                 <div class="col-md-12 col-sm-12 ">
                                     <div class="x_panel">
                                         <div class="x_title">
-                                            <h2>Usuarios</h2>
+                                            <div class="col-md-6 col-sm-6 ">
+                                                <div id="gender" class="btn-group">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg" name="gender" value="female" class="join-btn"> Regresar
+                                                    </label>
+                                                </div>
+                                                <div id="gender" class="btn-group">
+                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bd-example-modal-lg" name="gender" value="female" class="join-btn"> Agregar
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
                                             <ul class="nav navbar-right panel_toolbox">
                                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                             </li>
@@ -85,7 +105,7 @@
                                                                     <th>Telefono</th>
                                                                     <th>Usuario</th>
                                                                     <th>Password</th>
-                                                                    <th>Rol</th>
+                                                                    <th>Roll</th>
                                                                     <th>E-mail</th>                                                                    
                                                                     <th>Estado</th>
                                                                     <th class="">Acciones</th>
