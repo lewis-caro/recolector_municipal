@@ -1,6 +1,6 @@
 <?php
 
-    include 'config/conexion.php';
+    /*include 'config/conexion.php';
 
     //Validar que exista un boton registrar
    if(isset($_POST['registrar'])) {
@@ -25,6 +25,53 @@
             $mensaje.="<h3 class='text-danger'> Tu regsitro no se ha sido exitoso</h3>";
         }
 
+
+   }*/
+
+?>
+
+<?php
+
+    include 'config/conexion.php';
+
+    //Validar que exista un boton registrar
+   if(isset($_POST['registrar'])) {
+
+        $mensaje = "";
+        $nombre = $conect->real_escape_string($_POST['nombres']);
+        $apellidos = $conect->real_escape_string($_POST['apellidos']);
+        $correo = $conect->real_escape_string($_POST['correo']);
+        $celular = $conect->real_escape_string($_POST['celular']);
+        $passw = $conect->real_escape_string($_POST['password']);
+
+        //Validar para que el regsitro no exista
+        $validar = "SELECT * FROM registro WHERE correo = '$correo' ";
+        $validando = $conect->query($validar);
+
+        if($validando->num_rows > 0){
+
+            $mensaje.="<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                    <strong>Lo Lamento!</strong> Este correo ya esta en uso
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    </div>";
+
+        }
+        else{    
+        //Consulta Para insertar los datos
+
+            $insertar = "INSERT INTO registro (nombres, apellidos, correo, celular, password) VALUES ('$nombre', '$apellidos', '$correo', '$celular', '$passw')";
+
+            $guardar = $conect->query($insertar);
+
+            if($guardar > 0){
+                $mensaje.="<h3 class='text-success'> Tu regsitro ah sido exitoso</h3>";
+            }
+            else{
+                $mensaje.="<h3 class='text-danger'> Tu regsitro no se ha sido exitoso</h3>";
+            }
+        }
 
    }
 
@@ -88,7 +135,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.php" class="nav-item nav-link active">Inicio</a>
                 <a href="" class="nav-item nav-link">Nosotros</a>
-                <a href="" class="nav-item nav-link">Programas</a>
+                <a href="" class="nav-item nav-link" data-target="#programas">Programas</a>
                 <a href="" class="nav-item nav-link">Residuos</a>
                 <!--<div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -103,7 +150,7 @@
                 <a href="" class="nav-item nav-link">Contactos</a>
             </div>
             
-            <a class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block" data-toggle="modal" data-target="#myModal">Inscribirse<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="login.php" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -289,8 +336,8 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                     <p class="fs-5 fw-bold text-primary">El Reciclaje</p>
-                    <h1 class="display-5 mb-4">Aprende a reciclar con sus 3 factores principales</h1>
-                    <p class="mb-4">La denominada Regla de las Tres Erres pretende estimular la participación ciudadana, desde el ámbito del hogar, en la lucha contra la degradación del planeta mediante la reducción, la reutilización y el reciclaje de los  productos que consumimos</p>
+                    <h2 class="display-5 mb-4">Aprende a reciclar con sus 3 factores principales</h2>
+                    <p class="mb-4" text-align>La denominada Regla de las Tres Erres pretende estimular la participación ciudadana, desde el ámbito del hogar, en la lucha contra la degradación del planeta mediante la reducción, la reutilización y el reciclaje de los  productos que consumimos</p>
                     <a class="btn btn-primary py-3 px-4" href="">Explorar mas</a>
                 </div>
                 <div class="col-lg-6">
@@ -338,10 +385,12 @@
     <!-- Service Start -->
     <div class="container-xxl py-5">
         <div class="container">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+
+            <div id="programas" class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <p class="fs-5 fw-bold text-primary">Nuestros Programas</p>
                 <h1 class="display-5 mb-5">PROGRAMAS</h1>
             </div>
+
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="service-item rounded d-flex h-100">
@@ -449,7 +498,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="bg-white rounded p-4 p-sm-5 wow fadeIn" data-wow-delay="0.5s">
-                        <h1 class="display-5 text-center mb-5">Registrarse</h1>
+                        <h1 class="display-5 text-center mb-5">Incribirse al Programa</h1>
                         
                         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                             <div class="row g-3">
@@ -477,12 +526,12 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-floating">
-                                        <input type="int" class="form-control bg-light border-0" id="tc" name="celular" placeholder="Celular" required>
+                                        <input type="number" class="form-control bg-light border-0" id="tc" name="celular" placeholder="Celular"  required>
                                         <label for="tc">Telefono / Celular</label>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-floating">
                                         <input type="password" class="form-control bg-light border-0" id="con" name="password" placeholder="Contraseña" required>
                                         <label for="con">Contraseña</label>
@@ -493,11 +542,16 @@
                                     <input type="submit" name="registrar" class="btn btn-primary py-3 px-4"  value="registrar">
                                 </div>
 
+                                <!--Alerta
+                                <div class="alert alert-danger" role="alert">
+                                    El correo ya esta en uso!
+                                </div>-->
+
                             </div>
                         </form>
                     </div>
                 </div>
-                <?php echo $mensaje; ?>
+                <?php //echo $mensaje; ?>
             </div>
         </div>
     </div>
@@ -695,7 +749,7 @@
                 
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="team-item rounded">
-                        <img class="img-fluid" src="img/gf.jpg" style="width: 800px; height: 460px;">
+                        <img class="img-fluid" src="img/au.jpg" style="width: 800px; height: 460px;">
                         <div class="team-text">
                             <h5 class="mb-0">AUGUSTO FRANCISCO RUBIO MAZA</h5>
                             <p class="text-primary">Gerente de Seguiridad Ciudadana, Tránsito y Fiscalización</p>
@@ -837,7 +891,6 @@
     <script src="lib/parallax/parallax.min.js"></script>
     <script src="lib/isotope/isotope.pkgd.min.js"></script>
     <script src="lib/lightbox/js/lightbox.min.js"></script>
-
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
