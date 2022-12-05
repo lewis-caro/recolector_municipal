@@ -84,44 +84,24 @@
     // break;
     
   }
-  require_once "../modelos/Usuario.php";
-  require_once "../modelos/Permiso.php";    
+  require_once "../modelos/Usuario.php"; 
 
-  $usuario = new Usuario();  
-  $permisos = new Permiso();
+  $usuario = new Usuario(); 
 
   // ::::::::::::::::::::::::::::::::: D A T O S   U S U A R I O S :::::::::::::::::::::::::::::
-  $idusuario = isset($_POST["idusuario"]) ? limpiarCadena($_POST["idusuario"]) : "";
-  $trabajador = isset($_POST["trabajador"]) ? limpiarCadena($_POST["trabajador"]) : "";
-  $trabajador_old = isset($_POST["trabajador_old"]) ? limpiarCadena($_POST["trabajador_old"]) : "";
-  $cargo = isset($_POST["cargo"]) ? limpiarCadena($_POST["cargo"]) : "";
-  $login = isset($_POST["login"]) ? limpiarCadena($_POST["login"]) : "";
-  $clave = isset($_POST["password"]) ? limpiarCadena($_POST["password"]) : "";
-  $clave_old = isset($_POST["password-old"]) ? limpiarCadena($_POST["password-old"]) : "";
-  $permiso = isset($_POST['permiso']) ? $_POST['permiso'] : "";
+  $idusuario        = isset($_POST["idusuario"]) ? limpiarCadena($_POST["idusuario"]) : "";
+  $dni              = isset($_POST["dni"]) ? limpiarCadena($_POST["dni"]) : "";
+  $nombre_usuario   = isset($_POST["nombre_usuario"]) ? limpiarCadena($_POST["nombre_usuario"]) : "";
+  $edad             = isset($_POST["edad"]) ? limpiarCadena($_POST["edad"]) : "";
+  $telefono         = isset($_POST["telefono"]) ? limpiarCadena($_POST["telefono"]) : "";
+  $login            = isset($_POST["login"]) ? limpiarCadena($_POST["login"]) : "";
+  $clave            = isset($_POST["password"]) ? limpiarCadena($_POST["password"]) : "";
+  $tipo_usuario     = isset($_POST["tipo_usuario"]) ? limpiarCadena($_POST["tipo_usuario"]) : "";
+  $email			      = isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
+  $zona             = isset($_POST["zona"])? $_POST["zona"] :"";
+  $direccion 		    = isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
+  //$permiso = isset($_POST['permiso']) ? $_POST['permiso'] : "";
 
-  // ::::::::::::::::::::::::::::::::: D A T O S   T R A B A J A D O R :::::::::::::::::::::::::::::
-  $idtrabajador	  	= isset($_POST["idtrabajador_trab"])? limpiarCadena($_POST["idtrabajador_trab"]):"";
-  $nombre 		      = isset($_POST["nombre_trab"])? limpiarCadena($_POST["nombre_trab"]):"";
-  $tipo_documento 	= isset($_POST["tipo_documento_trab"])? limpiarCadena($_POST["tipo_documento_trab"]):"";
-  $num_documento  	= isset($_POST["num_documento_trab"])? limpiarCadena($_POST["num_documento_trab"]):"";
-  $direccion		    = isset($_POST["direccion_trab"])? limpiarCadena($_POST["direccion_trab"]):"";
-  $telefono		      = isset($_POST["telefono_trab"])? limpiarCadena($_POST["telefono_trab"]):"";
-  $nacimiento		    = isset($_POST["nacimiento_trab"])? limpiarCadena($_POST["nacimiento_trab"]):"";
-  $edad		          = isset($_POST["edad_trab"])? limpiarCadena($_POST["edad_trab"]):"";      
-  $email			      = isset($_POST["email_trab"])? limpiarCadena($_POST["email_trab"]):"";
-  $banco            = isset($_POST["banco_trab"])? $_POST["banco_trab"] :"";     
-  $cta_bancaria		  = isset($_POST["cta_bancaria_trab"])?$_POST["cta_bancaria_trab"]:"";
-  $cta_bancaria_format= isset($_POST["cta_bancaria_trab"])?$_POST["cta_bancaria_trab"]:"";
-  $cci	          	= isset($_POST["cci_trab"])?$_POST["cci_trab"]:"";
-  $cci_format      	= isset($_POST["cci_trab"])? $_POST["cci_trab"]:"";
-  $titular_cuenta		= isset($_POST["titular_cuenta_trab"])? limpiarCadena($_POST["titular_cuenta_trab"]):"";
-  $ruc	          	= isset($_POST["ruc_trab"])? limpiarCadena($_POST["ruc_trab"]):"";
-  $idcargo_trabajador = isset($_POST["cargo_trabajador_trab"])? limpiarCadena($_POST["cargo_trabajador_trab"]):"";
-  $sueldo_mensual   = isset($_POST["sueldo_mensual_trab"])? limpiarCadena($_POST["sueldo_mensual_trab"]):"";
-  $sueldo_diario    = isset($_POST["sueldo_diario_trab"])? limpiarCadena($_POST["sueldo_diario_trab"]):"";
-
-  $imagen1			    = isset($_POST["foto1"])? limpiarCadena($_POST["foto1"]):"";
 
   switch ($_GET["op"]) {
 
@@ -201,20 +181,21 @@
         foreach ($rspta['data'] as $key => $value) {
           $data[] = [
             "0"=>$cont++,
-            "1" => $value['estado'] ? '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
-                ($value['cargo']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fas fa-skull-crossbones"></i> </button>' : ' <button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>' ) :
-                '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' . 
-                ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-check"></i></button>',
+            "1" => $value[''],
             "2" => '<div class="user-block">'. 
-              '<img class="img-circle" src="../dist/docs/trabajador/perfil/' . $value['imagen_perfil'] . '" alt="User Image" onerror="' . $imagen_error . '">'.
               '<span class="username"><p class="text-primary m-b-02rem" >' . $value['nombres'] . '</p></span>'. 
-              '<span class="description"> - ' . $value['tipo_documento'] .  ': ' . $value['numero_documento'] . ' </span>'.
+              '<span class="description"> - ' . $value['dni'] .  ': ' . $value['dni'] . ' </span>'.
             '</div>',
             "3" => $value['telefono'],
             "4" => $value['login'],
-            "5" => $value['cargo'],
-            "6" => nombre_dia_semana( date("Y-m-d", strtotime($value['last_sesion'])) ) .', <br>'. date("d/m/Y", strtotime($value['last_sesion'])) .' - '. date("g:i a", strtotime($value['last_sesion'])) ,
-            "7" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
+            "5" => $value['password'],
+            "6" => $value['tipo_usuario'],
+            "7" => $value['email'],
+            "8" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
+            "9"  => $value['estado'] ? '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
+            ($value['cargo']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fas fa-skull-crossbones"></i> </button>' : ' <button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>' ) :
+            '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' . 
+            ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-check"></i></button>',
           ];
         }
         $results = [

@@ -10,6 +10,7 @@ function init() {
   $("#lUsuario").addClass("active");
 
   tbla_principal();
+  console.log(tbla_principal())
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════  
 
@@ -130,9 +131,9 @@ function tbla_principal() {
     aServerSide: true,//Paginación y filtrado realizados por el servidor
     dom: '<Bl<f>rtip>',//Definimos los elementos del control de tabla
     buttons: [
-      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2,3,4,5], } }, 
-      { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2,3,4,5], } }, 
-      { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2,3,4,5], } } ,
+      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,1,2,3,4,5,6,7], } }, 
+      { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,1,2,3,4,5,6,7], } }, 
+      { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,1,2,3,4,5,6,7], } } ,
     ],
     ajax:{
       url: '../ajax/usuario.php?op=tbla_principal',
@@ -293,31 +294,16 @@ function limpiar_form_trabajador() {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
-  $("#idtrabajador_trab").val("");
-  $("#tipo_documento_trab").val("null").trigger("change");
-  $("#cargo_trabajador_trab").val("null").trigger("change");
+ 
+  $("#zona").val("null").trigger("change");
+  $("#tipo_usuario").val("null").trigger("change");
 
-  $("#nombre_trab").val(""); 
-  $("#num_documento_trab").val(""); 
-  $("#direccion_trab").val(""); 
-  $("#telefono_trab").val(""); 
-  $("#email_trab").val(""); 
-  $("#nacimiento_trab").val("");
-  $("#edad_trab").val("0");  $(".edadr_trab").html("0");    
-  $("#cta_bancaria_trab").val("");  
-  $("#cci_trab").val("");  
-  $("#ruc_trab").val("");  
-  $("#banco_trab").val("").trigger("change");
-
-  $("#titula_cuenta").val("");
-  $("#sueldo_mensual").val("");
-  $("#sueldo_diario").val("");
-
-  $("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
-	$("#foto1").val("");
-	$("#foto1_actual").val("");  
-  $("#foto1_nombre").html(""); 
-
+  $("#dni").val(""); 
+  $("#nombre_usuario").val(""); 
+  $("#edad").val(""); 
+  $("#telefono").val(""); 
+  $("#email").val(""); 
+  $("#direccion").val("");
   
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
