@@ -291,7 +291,7 @@
       if ($rspta['status']) {
 
         foreach ($rspta['data'] as $key => $value) {
-          $data  .= '<option value=' . $value['idtrabajador'] . ' title="'.$value['imagen_perfil'].'">' . $value['nombres'] . ' - ' . $value['numero_documento'] . '</option>';
+          $data  .= '<option value=' . $value['idusuario'] . ' title="'.$value['img_perfil'].'">' . $value['nombres'] . ' - ' . $value['dni'] . '</option>';
         }
     
         $retorno = array(

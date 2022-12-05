@@ -10,26 +10,20 @@ function init() {
   $("#lUsuario").addClass("active");
 
   tbla_principal();
-  console.log(tbla_principal())
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════  
 
-  lista_select2("../ajax/usuario.php?op=select2Trabajador", '#trabajador', null);
-  lista_select2("../ajax/ajax_general.php?op=select2_cargo_trabajador", '#cargo_trabajador_trab', null);
+  //lista_select2("../ajax/usuario.php?op=select2Trabajador", '#trabajador', null);
+  //lista_select2("../ajax/ajax_general.php?op=select2_cargo_trabajador", '#cargo_trabajador_trab', null);
 
   
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
   $("#guardar_registro_trabajador").on("click", function (e) {  $("#submit-form-trabajador").submit(); });
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════
-  $("#trabajador").select2({ templateResult: formatState, theme: "bootstrap4",  placeholder: "Selecione trabajador", allowClear: true, });  
+  // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════  
 
-  $("#cargo").select2({ theme: "bootstrap4", placeholder: "Selecione cargo", allowClear: true, });
-  $("#banco_trab").select2({  templateResult: formatStateBanco,  theme: "bootstrap4", placeholder: "Selecione banco", allowClear: true, });
-  $("#tipo_trab").select2({ theme: "bootstrap4", placeholder: "Selecione tipo", allowClear: true, });
-  $("#cargo_trabajador_trab").select2({ theme: "bootstrap4",  placeholder: "Selecione Ocupación", allowClear: true, });
-  $("#tipo_documento_trab").select2({theme:"bootstrap4", placeholder: "Selecione tipo Doc.", allowClear: true, });
+  //$("#tipo_usuario").select2({ theme: "bootstrap4", placeholder: "Selecione cargo", allowClear: true, });
 
 
   // restringimos la fecha para no elegir mañana
