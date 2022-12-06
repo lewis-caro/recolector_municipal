@@ -163,10 +163,10 @@ class Usuario
 
   //Implementar un método para listar los registros
   public function listar() {
-    $sql = "SELECT u.idusuario, u.nombres, u.dni, u.login, u.edad, u.direccion, u.telefono, u.email, u.img_perfil, tp.nombre as tipo_persona, z.nombre as zona, u.estado 
+    $sql = "SELECT u.idusuario, u.nombres, u.dni, u.login, u.password, u.edad, u.direccion, u.telefono, u.email, u.img_perfil, tp.nombre as tipo_persona, z.nombre as zona, u.estado 
     FROM usuario as u, tipo_persona as tp, zonas as z 
     WHERE u.idtipo_persona = tp.idtipo_persona AND u.idzonas = z.idzonas AND u.estado=1 ORDER BY u.nombres ASC;";
-    return ejecutarConsulta($sql);
+    return ejecutarConsultaArray($sql);
   }
 
   //Implementar un método para listar los permisos marcados

@@ -84,9 +84,11 @@
     // break;
     
   }
-  require_once "../modelos/Usuario.php"; 
+  require_once "../modelos/Usuario.php";
+  require_once "../modelos/Permiso.php";    
 
-  $usuario = new Usuario(); 
+  $usuario = new Usuario();  
+  $permisos = new Permiso();
 
   // ::::::::::::::::::::::::::::::::: D A T O S   U S U A R I O S :::::::::::::::::::::::::::::
   $idusuario        = isset($_POST["idusuario"]) ? limpiarCadena($_POST["idusuario"]) : "";
@@ -171,9 +173,10 @@
     case 'tbla_principal':
 
       $rspta = $usuario->listar();
+      //echo json_encode($rspta, true);
           
       //Vamos a declarar un array
-      $data = [];  
+      $data = []; 
       $imagen_error = "this.src='../dist/svg/user_default.svg'"; $cont=1;
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
 
@@ -181,23 +184,25 @@
         foreach ($rspta['data'] as $key => $value) {
           $data[] = [
             "0"=>$cont++,
-            "1" => $value[''],
+            "1" => $value['telefono'],
             "2" => '<div class="user-block">'. 
               '<span class="username"><p class="text-primary m-b-02rem" >' . $value['nombres'] . '</p></span>'. 
-              '<span class="description"> - ' . $value['dni'] .  ': ' . $value['dni'] . ' </span>'.
+              '<span class="description"> DNI: ' . $value['dni'] . ' </span>'.
             '</div>',
             "3" => $value['telefono'],
             "4" => $value['login'],
             "5" => $value['password'],
-            "6" => $value['tipo_usuario'],
+            "6" => $value['tipo_persona'],
             "7" => $value['email'],
             "8" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
             "9"  => $value['estado'] ? '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
-            ($value['cargo']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fas fa-skull-crossbones"></i> </button>' : ' <button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>' ) :
+            ($value['tipo_persona']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fas fa-skull-crossbones"></i> </button>' : ' <button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>' ) :
             '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' . 
             ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-check"></i></button>',
           ];
+          
         }
+        
         $results = [
           "sEcho" => 1, //Información para el datatables
           "iTotalRecords" => count($data), //enviamos el total registros al datatable
@@ -291,7 +296,7 @@
       if ($rspta['status']) {
 
         foreach ($rspta['data'] as $key => $value) {
-          $data  .= '<option value=' . $value['idusuario'] . ' title="'.$value['img_perfil'].'">' . $value['nombres'] . ' - ' . $value['dni'] . '</option>';
+          $data  .= '<option value=' . $value['idtrabajador'] . ' title="'.$value['imagen_perfil'].'">' . $value['nombres'] . ' - ' . $value['numero_documento'] . '</option>';
         }
     
         $retorno = array(
@@ -312,7 +317,7 @@
     break;
     
     // ::::::::::::::::::::::::::::::::: S E C C I O N   T R A B A J A D O R :::::::::::::::::::::::::::::
-    case 'guardar_y_editar_trabajador':
+    case 'guardar_y_editar_usuario':
 
       // imgen de perfil
       if (!file_exists($_FILES['foto1']['tmp_name']) || !is_uploaded_file($_FILES['foto1']['tmp_name'])) {

@@ -32,7 +32,7 @@
                 require 'nav.php';
                 
                 //-----------Navegador y Menú ----------------
-                if ($_SESSION['permisos'] == 1) {
+                if ($_SESSION['acceso'] == 1) {
                     //-----------------------------
                     ?>
                     <!-- page content -->

@@ -92,7 +92,7 @@
                               <div class="row">
                                 <div class="col-sm-12">
                                   <div class="card-box table-responsive">
-                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <table id="tabla-usuarios" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                       <thead>
                                         <tr>
                                           <th class="center">#</th>
@@ -107,7 +107,12 @@
                                           <th class="">Acciones</th>
                                         </tr>
                                       </thead>
-                                      <tbody></tbody>
+                                      <tbody>
+                                        <tr>
+                                          
+                                          <td></td>
+                                        </tr>
+                                      </tbody>
                                     </table>
                                   </div>
                                 </div>
@@ -251,7 +256,7 @@
                             </form>
                           </div>
                           <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" onclick="limpiar_form_material();">Close</button>
+                            <button type="button" class="btn btn-danger" onclick="limpiar_form_usuario();">Close</button>
                             <button type="submit" class="btn btn-success" id="guardar_registro">Guardar Cambios</button>
                           </div>
                         </div>

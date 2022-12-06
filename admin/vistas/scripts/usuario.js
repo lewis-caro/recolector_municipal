@@ -19,7 +19,7 @@ function init() {
   
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
-  $("#guardar_registro_trabajador").on("click", function (e) {  $("#submit-form-trabajador").submit(); });
+  $("#guardar_registro_usuario").on("click", function (e) {  $("#submit-form-trabajador").submit(); });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════  
 
@@ -282,7 +282,7 @@ function eliminar(idusuario, nombre) {
 }
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   T R A B A J A D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
-function limpiar_form_trabajador() {
+function limpiar_form_usuario() {
 
   $("#guardar_registro_trabajador").html('Guardar Cambios').removeClass('disabled');
 
@@ -290,7 +290,7 @@ function limpiar_form_trabajador() {
 
  
   $("#zona").val("null").trigger("change");
-  $("#tipo_usuario").val("null").trigger("change");
+  $("#tipo_persona").val("null").trigger("change");
 
   $("#dni").val(""); 
   $("#nombre_usuario").val(""); 
@@ -306,13 +306,13 @@ function limpiar_form_trabajador() {
 }
 
 //Función para guardar o editar
-function guardar_y_editar_trabajador(e) {
+function guardar_y_editar_usuario(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-trabajador")[0]);
   $("#div_barra_progress_trabajador").show();
 
   $.ajax({
-    url: "../ajax/usuario.php?op=guardar_y_editar_trabajador",
+    url: "../ajax/usuario.php?op=guardar_y_editar_usuario",
     type: "POST",
     data: formData,
     contentType: false,
@@ -326,7 +326,7 @@ function guardar_y_editar_trabajador(e) {
           
           sw_success('Correcto!', "Trabajador guardado correctamente." );      
 
-          limpiar_form_trabajador();
+          limpiar_form_usuario();
 
           $("#modal-agregar-trabajador").modal("hide");
     
@@ -420,12 +420,12 @@ $(function () {
     rules: {
       login:    { required: true, minlength: 3, maxlength: 20 },
       password: { required: true, minlength: 4, maxlength: 20 },
-      cargo:    { required: true },
+      
     },
     messages: {
       login:    { required: "Este campo es requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
       password: { equired: "Campo requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
-      cargo:    { required: "Campo requerido." },
+     
     },
     
     errorElement: "span",
@@ -451,27 +451,21 @@ $(function () {
   $("#form-trabajador").validate({
     //ignore: '.select2-input, .select2-focusser',
     rules: {
-      tipo_documento_trab: { required: true },
-      num_documento_trab:  { required: true, minlength: 6, maxlength: 20 },
-      nombre_trab:         { required: true, minlength: 6, maxlength: 100 },
-      email_trab:          { email: true, minlength: 10, maxlength: 50 },
-      direccion_trab:      { minlength: 5, maxlength: 70 },
-      telefono_trab:       { minlength: 8 },
-      tipo_trabajador_trab:{ required: true},
-      cargo_trab:          { required: true},
-      c_bancaria_trab:     { minlength: 10,},
-      banco_trab:          { required: true},
-      cargo_trabajador_trab: { required: true},
-      ruc_trab:            { minlength: 11, maxlength: 11},      
+      dni: { required: true },
+      nombres:  { required: true, minlength: 6, maxlength: 20 },
+      tipo_usuario:          { required: true},
+      login:         { required: true, minlength: 6, maxlength: 100 },
+      password:          { email: true, minlength: 10, maxlength: 50 },
+      direccion:      { minlength: 5, maxlength: 70 },
+      telefono:       { minlength: 8 },     
     },
     messages: {
-      tipo_documento_trab: { required: "Campo requerido.", },
-      num_documento_trab:  { required: "Campo requerido.", minlength: "MÍNIMO 6 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
-      nombre_trab:         { required: "Campo requerido.", minlength: "MÍNIMO 6 caracteres.", maxlength: "MÁXIMO 100 caracteres.", },
+      dni: { required: "Campo requerido.", },
+      nombres:         { required: "Campo requerido.", minlength: "MÍNIMO 6 caracteres.", maxlength: "MÁXIMO 100 caracteres.", },
       email_trab:          { required: "Campo requerido.", email: "Ingrese un coreo electronico válido.", minlength: "MÍNIMO 10 caracteres.", maxlength: "MÁXIMO 50 caracteres.", },
       direccion_trab:      { minlength: "MÍNIMO 5 caracteres.", maxlength: "MÁXIMO 70 caracteres.", },
-      telefono_trab:       { minlength: "MÍNIMO 8 caracteres.", },
-      tipo_trabajador_trab:{ required: "Campo requerido.", },
+      tipo_usuario:       { minlength: "MÍNIMO 8 caracteres.", },
+       usuario :{ required: "Campo requerido.", },
       cargo_trab:          { required: "Campo requerido.", },
       c_bancaria_trab:     { minlength: "MÍNIMO 10 caracteres.", },
       banco_trab:          { required: "Campo requerido.", },
@@ -495,7 +489,7 @@ $(function () {
     },
 
     submitHandler: function (e) {
-      guardar_y_editar_trabajador(e);
+      guardar_y_editar_usuario(e);
     },
   });
 
