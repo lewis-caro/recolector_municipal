@@ -155,30 +155,31 @@ class Usuario
 
   //Implementar un método para mostrar los datos de un registro a modificar
   public function mostrar($idusuario) {
-    $sql = "SELECT u.idusuario, u.idtrabajador, u.cargo, u.login, u.password, u.estado, t.nombres FROM usuario AS u, trabajador AS t WHERE u.idusuario='$idusuario' AND u.idtrabajador = t.idtrabajador;";
+    $sql = "SELECT u.idusuario, u.idtrabajador, u.cargo, u.login, u.password, u.estado, t.nombres 
+    FROM usuario AS u, trabajador AS t WHERE u.idusuario='$idusuario' AND u.idtrabajador = t.idtrabajador;";
 
     return ejecutarConsultaSimpleFila($sql);
   }
 
   //Implementar un método para listar los registros
   public function listar() {
-    $sql = "SELECT u.idusuario, u.last_sesion, t.nombres, t.tipo_documento, t.numero_documento, t.telefono, t.email, u.cargo, u.login, t.imagen_perfil, t.tipo_documento, u.estado
-		FROM usuario as u, trabajador as t
-		WHERE  u.idtrabajador = t.idtrabajador  AND u.estado=1 AND u.estado_delete=1 ORDER BY t.nombres ASC;";
+    $sql = "SELECT u.idusuario, u.nombres, u.dni, u.login, u.edad, u.direccion, u.telefono, u.email, u.img_perfil, tp.nombre as tipo_persona, z.nombre as zona, u.estado 
+    FROM usuario as u, tipo_persona as tp, zonas as z 
+    WHERE u.idtipo_persona = tp.idtipo_persona AND u.idzonas = z.idzonas AND u.estado=1 ORDER BY u.nombres ASC;";
     return ejecutarConsulta($sql);
   }
 
   //Implementar un método para listar los permisos marcados
   public function listarmarcados($idusuario) {
-    $sql = "SELECT * FROM usuario_permiso WHERE idusuario='$idusuario' ";
+    $sql = "SELECT * FROM usuario_permiso WHERE idusuario='$idusuario' and estado = '1' ";
     return ejecutarConsulta($sql);
   }
 
   //Función para verificar el acceso al sistema
   public function verificar($login, $clave) {
-    $sql = "SELECT u.idusuario, p.nombres, p.edad, p.dni, p.direccion, p.telefono, p.email, u.login, p.imagen_perfil, tp.nombre as tipoPersona, z.nombre as zona
-		FROM usuario as u, persona as p, tipo_persona as tp, zonas as z
-		WHERE u.login='$login' AND u.password='$clave' AND p.estado=1 and u.estado=1 and u.idpersona = p.idpersona and p.idtipo_persona = tp.idtipo_persona and p.idzonas = z.idzonas;";
+    $sql = "SELECT u.idusuario, u.nombres, u.dni, u.login, u.edad, u.direccion, u.telefono, u.email, u.img_perfil, tp.nombre as tipoPersona, z.nombre as zona
+		FROM usuario as u, tipo_persona as tp, zonas as z
+		WHERE u.login='$login' AND u.password='$clave' AND u.estado=1 and u.idtipo_persona = tp.idtipo_persona and u.idzonas = z.idzonas;";
     return ejecutarConsultaSimpleFila($sql);
   }
 

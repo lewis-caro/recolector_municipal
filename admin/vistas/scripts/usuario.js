@@ -13,22 +13,17 @@ function init() {
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════  
 
-  lista_select2("../ajax/usuario.php?op=select2Trabajador", '#trabajador', null);
-  lista_select2("../ajax/ajax_general.php?op=select2_cargo_trabajador", '#cargo_trabajador_trab', null);
+  //lista_select2("../ajax/usuario.php?op=select2Trabajador", '#trabajador', null);
+  //lista_select2("../ajax/ajax_general.php?op=select2_cargo_trabajador", '#cargo_trabajador_trab', null);
 
   
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
   $("#guardar_registro_trabajador").on("click", function (e) {  $("#submit-form-trabajador").submit(); });
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════
-  $("#trabajador").select2({ templateResult: formatState, theme: "bootstrap4",  placeholder: "Selecione trabajador", allowClear: true, });  
+  // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════  
 
-  $("#cargo").select2({ theme: "bootstrap4", placeholder: "Selecione cargo", allowClear: true, });
-  $("#banco_trab").select2({  templateResult: formatStateBanco,  theme: "bootstrap4", placeholder: "Selecione banco", allowClear: true, });
-  $("#tipo_trab").select2({ theme: "bootstrap4", placeholder: "Selecione tipo", allowClear: true, });
-  $("#cargo_trabajador_trab").select2({ theme: "bootstrap4",  placeholder: "Selecione Ocupación", allowClear: true, });
-  $("#tipo_documento_trab").select2({theme:"bootstrap4", placeholder: "Selecione tipo Doc.", allowClear: true, });
+  //$("#tipo_usuario").select2({ theme: "bootstrap4", placeholder: "Selecione cargo", allowClear: true, });
 
 
   // restringimos la fecha para no elegir mañana
@@ -130,9 +125,9 @@ function tbla_principal() {
     aServerSide: true,//Paginación y filtrado realizados por el servidor
     dom: '<Bl<f>rtip>',//Definimos los elementos del control de tabla
     buttons: [
-      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2,3,4,5], } }, 
-      { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2,3,4,5], } }, 
-      { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2,3,4,5], } } ,
+      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,1,2,3,4,5,6,7], } }, 
+      { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,1,2,3,4,5,6,7], } }, 
+      { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,1,2,3,4,5,6,7], } } ,
     ],
     ajax:{
       url: '../ajax/usuario.php?op=tbla_principal',
@@ -293,31 +288,16 @@ function limpiar_form_trabajador() {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
-  $("#idtrabajador_trab").val("");
-  $("#tipo_documento_trab").val("null").trigger("change");
-  $("#cargo_trabajador_trab").val("null").trigger("change");
+ 
+  $("#zona").val("null").trigger("change");
+  $("#tipo_usuario").val("null").trigger("change");
 
-  $("#nombre_trab").val(""); 
-  $("#num_documento_trab").val(""); 
-  $("#direccion_trab").val(""); 
-  $("#telefono_trab").val(""); 
-  $("#email_trab").val(""); 
-  $("#nacimiento_trab").val("");
-  $("#edad_trab").val("0");  $(".edadr_trab").html("0");    
-  $("#cta_bancaria_trab").val("");  
-  $("#cci_trab").val("");  
-  $("#ruc_trab").val("");  
-  $("#banco_trab").val("").trigger("change");
-
-  $("#titula_cuenta").val("");
-  $("#sueldo_mensual").val("");
-  $("#sueldo_diario").val("");
-
-  $("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
-	$("#foto1").val("");
-	$("#foto1_actual").val("");  
-  $("#foto1_nombre").html(""); 
-
+  $("#dni").val(""); 
+  $("#nombre_usuario").val(""); 
+  $("#edad").val(""); 
+  $("#telefono").val(""); 
+  $("#email").val(""); 
+  $("#direccion").val("");
   
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
