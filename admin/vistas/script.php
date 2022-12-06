@@ -57,9 +57,9 @@
 <script src="../plugins/pdfmake/build/pdfmake.min.js"></script>
 <script src="../plugins/pdfmake/build/vfs_fonts.js"></script>
 
-<!-- jquery-validation
+<!-- jquery-validation-->
 <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
-<script src="../plugins/jquery-validation/additional-methods.min.js"></script>  -->
+<script src="../plugins/jquery-validation/additional-methods.min.js"></script>  
 
 
 <!-- InputMask -->

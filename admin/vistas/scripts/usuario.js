@@ -284,7 +284,7 @@ function eliminar(idusuario, nombre) {
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   T R A B A J A D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 function limpiar_form_usuario() {
 
-  $("#guardar_registro_trabajador").html('Guardar Cambios').removeClass('disabled');
+  $("#guardar_registro_usuario").html('Guardar Cambios').removeClass('disabled');
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
@@ -330,7 +330,7 @@ function guardar_y_editar_usuario(e) {
 
           $("#modal-agregar-trabajador").modal("hide");
     
-          $("#guardar_registro_trabajador").html('Guardar Cambios').removeClass('disabled');
+          $("#guardar_registro_usuario").html('Guardar Cambios').removeClass('disabled');
         } else {
           ver_errores(d);
         }
@@ -355,7 +355,7 @@ function guardar_y_editar_usuario(e) {
       return xhr;
     },
     beforeSend: function () {
-      $("#guardar_registro_trabajador").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#guardar_registro_usuario").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
       $("#div_barra_progress_trabajador").show();
       $("#barra_progress_trabajador").css({ width: "0%",  });
       $("#barra_progress_trabajador").text("0%");
@@ -448,12 +448,12 @@ $(function () {
     },
   });
 
-  $("#form-trabajador").validate({
+  $("#form-usuario").validate({
     //ignore: '.select2-input, .select2-focusser',
     rules: {
       dni: { required: true },
       nombres:  { required: true, minlength: 6, maxlength: 20 },
-      tipo_usuario:          { required: true},
+      tipo_usuario:  { required: true},
       login:         { required: true, minlength: 6, maxlength: 100 },
       password:          { email: true, minlength: 10, maxlength: 50 },
       direccion:      { minlength: 5, maxlength: 70 },

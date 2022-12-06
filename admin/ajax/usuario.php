@@ -93,7 +93,7 @@
   // ::::::::::::::::::::::::::::::::: D A T O S   U S U A R I O S :::::::::::::::::::::::::::::
   $idusuario        = isset($_POST["idusuario"]) ? limpiarCadena($_POST["idusuario"]) : "";
   $dni              = isset($_POST["dni"]) ? limpiarCadena($_POST["dni"]) : "";
-  $nombre_usuario   = isset($_POST["nombre_usuario"]) ? limpiarCadena($_POST["nombre_usuario"]) : "";
+  $nombre_usuario   = isset($_POST["nombres"]) ? limpiarCadena($_POST["nombres"]) : "";
   $edad             = isset($_POST["edad"]) ? limpiarCadena($_POST["edad"]) : "";
   $telefono         = isset($_POST["telefono"]) ? limpiarCadena($_POST["telefono"]) : "";
   $login            = isset($_POST["login"]) ? limpiarCadena($_POST["login"]) : "";
@@ -126,7 +126,7 @@
 
       if (empty($idusuario)) {
 
-        $rspta = $usuario->insertar($trabajador, $cargo, $login, $clavehash, $permiso);
+        $rspta = $usuario->insertar($idtipo_persona, $idzona, $dni, $nombres, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos);
 
         echo json_encode($rspta, true);
 
