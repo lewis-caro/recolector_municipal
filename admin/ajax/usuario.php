@@ -23,7 +23,7 @@
         if ( !empty($rspta['data']) ) {
 
           // ultima sesion
-          $ultima_sesion = $usuario->ultima_sesion($rspta['data']['idusuario']);
+          //$ultima_sesion = $usuario->ultima_sesion($rspta['data']['idusuario']);
 
           //Declaramos las variables de sesión
           $_SESSION['idusuario'] = $rspta['data']['idusuario'];
