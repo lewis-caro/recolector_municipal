@@ -3,6 +3,7 @@
 $ser = "localhost";
 $usu = "root";
 $pass ="";
+//$bd = "mdbs";
 $bd = "mdbs";
 
 $conect = mysqli_connect($ser, $usu, $pass, $bd);

@@ -14,12 +14,12 @@ if(isset($_POST['entrar'])){
     $rpass = $conect->real_escape_string($_POST['password']);
 
     //Consulta que extraiga los datod de la BD
-    $consulta = "SELECT * FROM registro WHERE correo = '$ruser' and password = '$rpass' ";
+    $consulta = "SELECT * FROM registro WHERE usuario = '$ruser' and password = '$rpass' ";
     
     if($resultado = $conect->query($consulta)){
 
         while($row = $resultado->fetch_array()){
-            $userok = $row['correo'];
+            $userok = $row['usuario'];
             $passok = $row['password'];
 
         }
@@ -156,7 +156,7 @@ if(isset($_POST['entrar'])){
 
           <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" >
             <div class="input-group mb-3">
-              <input type="text" name="correo" autocomplete="off" class="form-control" placeholder="Gmail" required/>
+              <input type="text" name="correo" autocomplete="off" class="form-control" placeholder="Usuario" required/>
               <div class="input-group-append">
                 <div class="input-group-text" style="background: linear-gradient(to right, #ffffff 10%, #ea2222 100%);">
                   <span class="fa fa-user" style="color: #040404;"></span>
@@ -176,7 +176,7 @@ if(isset($_POST['entrar'])){
             <div class="row">
               <div class="col-12">
                 <button type="submit" name="entrar" class="btn btn-outline-success btn-block ">Ingresar</button>
-                <i><a href="index.php" class="btn btn-outline-success btn-block ">Regresar</a></i>
+                <i><a href="index.php" class="btn btn-outline-warning btn-block ">Regresar</a></i>
                 <!-- <input type="submit" value="Ingresar" class="btn btn-outline-warning btn-block login-btn" /> -->
               </div>
               <!-- /.col -->
