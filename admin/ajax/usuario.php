@@ -15,7 +15,7 @@
       $clavea = $_POST['clavea'];
 
       //Hash SHA256 en la contraseña
-      //$clavehash = hash("SHA256", $clavea);
+      $clavehash = hash("SHA256", $clavea);
 
       $rspta = $usuario->verificar($logina, $clavea);   //$fetch = $rspta->fetch_object();
 

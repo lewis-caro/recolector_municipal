@@ -74,7 +74,7 @@
                             <div class="x_title">
                               <div class="col-md-6 col-sm-6">
                                 <div id="gender" class="btn-group">
-                                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-agregar-material" onclick=""><i class="fa fa-plus"></i> Agregar</button>
+                                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-agregar-usuario" onclick=""><i class="fa fa-plus"></i> Agregar</button>
                                 </div>
                               </div>
 
@@ -123,7 +123,7 @@
                       </div>
                     </div>
                     <!-- MODAL - AGREGAR MATERIAL -->
-                    <div class="modal fade" id="modal-agregar-material">
+                    <div class="modal fade" id="modal-agregar-usuario">
                       <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -134,7 +134,7 @@
 
                           <div class="modal-body">
                             <!-- form start -->
-                            <form id="form-materiales" name="form-materiales" method="POST" autocomplete="off">
+                            <form id="form-usuario" name="form-usuario" method="POST" autocomplete="off">
                               <div class="card-body">
                                 <div class="row" id="cargando-1-fomulario">
                                   <!-- id Usuarios -->
@@ -252,12 +252,12 @@
                                 </div>
                               </div>
                               <!-- /.card-body -->
-                              <button type="submit" style="display: none;" id="submit-form-materiales">Submit</button>
+                              <button type="submit" style="display: none;" id="submit-form-usuario">Submit</button>
                             </form>
                           </div>
                           <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-danger" onclick="limpiar_form_usuario();">Close</button>
-                            <button type="submit" class="btn btn-success" id="guardar_registro">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-success" id="guardar_registro_usuario">Guardar Cambios</button>
                           </div>
                         </div>
                       </div>
