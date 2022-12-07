@@ -8,33 +8,40 @@
     $retorno = ['status'=>'login', 'message'=>'Tu sesion a terminado pe, inicia nuevamente', 'data' => [] ];
     echo json_encode($retorno);  //Validamos el acceso solo a los usuarios logueados al sistema.
   } else {
-    if ($_SESSION['resportes'] == 1) {
+    if ($_SESSION['reportes'] == 1) {
       require_once "../modelos/Reporte_civil.php";
 
       $reporte_civil = new Reporte_Civil();
 
-      $idproyecto   = isset($_POST["idproyecto"]) ? limpiarCadena($_POST["idproyecto"]) : "";
-      $idproveedor  = isset($_POST["idproveedor"]) ? limpiarCadena($_POST["idproveedor"]) : "";
-      $nombre       = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
-      $tipo_documento = isset($_POST["tipo_documento"]) ? limpiarCadena($_POST["tipo_documento"]) : "";
-      $num_documento= isset($_POST["num_documento"]) ? limpiarCadena($_POST["num_documento"]) : "";
-      $direccion    = isset($_POST["direccion"]) ? limpiarCadena($_POST["direccion"]) : "";
-      $telefono     = isset($_POST["telefono"]) ? limpiarCadena($_POST["telefono"]) : "";
-      $c_bancaria   = isset($_POST["c_bancaria"]) ? limpiarCadena($_POST["c_bancaria"]) : "";
-      $cci          = isset($_POST["cci"]) ? limpiarCadena($_POST["cci"]) : "";
-      $c_detracciones = isset($_POST["c_detracciones"]) ? limpiarCadena($_POST["c_detracciones"]) : "";
-      $banco        = isset($_POST["banco"]) ? limpiarCadena($_POST["banco"]) : "";
-      $titular_cuenta= isset($_POST["titular_cuenta"]) ? limpiarCadena($_POST["titular_cuenta"]) : "";
+      $idreporte   = isset($_POST["idreporte"]) ? limpiarCadena($_POST["idreporte"]) : "";
+      $idtipo_residuo   = isset($_POST["idtipo_residuo"]) ? limpiarCadena($_POST["idtipo_residuo"]) : "";
+      $descripcion  = isset($_POST["descripcion"]) ? limpiarCadena($fecha["descripcion"]) : "";
+      $referencia       = isset($_POST["referencia"]) ? limpiarCadena($_POST["referencia"]) : "";
+      $fecha       = isset($_POST["fecha_hoy"]) ? limpiarCadena($_POST["fecha_hoy"]) : "";
+      
 
       switch ($_GET["op"]) {
 
-        case 'guardaryeditar':
+        case 'guardar_y_editar_reporte':
+          //DOC 1//
+          if (!file_exists($_FILES['doc1']['tmp_name']) || !is_uploaded_file($_FILES['doc1']['tmp_name'])) {
 
-          if (empty($idproveedor)) {
-            $rspta = $reporte_civil->insertar($nombre, $tipo_documento, $num_documento, $direccion, $telefono, $c_bancaria, $cci, $c_detracciones, $banco, $titular_cuenta);
+            $flat_doc1 = false;  $doc1 = $_POST["doc_old_1"];
+
+          } else {
+
+            $flat_doc1 = true;  $ext_doc1 = explode(".", $_FILES["doc1"]["name"]);            
+              
+            $doc1 = $date_now .' '. rand(0, 20) . round(microtime(true)) . rand(21, 41) . '.' . end($ext_doc1);
+
+            move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/reporte_residuo/img/" . $doc1);
+            
+          }
+          if (empty($idreporte)) {
+            $rspta = $reporte_civil->insertar( $idtipo_residuo, $descripcion,  $referencia,  $img, $fecha);
             echo json_encode($rspta, true);
           } else {
-            $rspta = $reporte_civil->editar($idproveedor, $nombre, $tipo_documento, $num_documento, $direccion, $telefono, $c_bancaria, $cci, $c_detracciones, $banco, $titular_cuenta);
+            $rspta = $reporte_civil->editar($idreporte, $idtipo_residuo, $descripcion,  $referencia,  $doc1, $fecha);
             echo json_encode($rspta, true);
           }
         break;
@@ -72,37 +79,32 @@
           
             foreach ($rspta['data'] as $key => $value) {   
 
-              $razon_social = '';  $direccion = ''; $titular_cuenta = '';
+              /*$razon_social = '';  
+              $direccion = ''; 
+              $titular_cuenta = '';
 
               $razon_social = $value['razon_social'];
               $direccion = $value['direccion']; 
-              $titular_cuenta = $value['titular_cuenta']; 
+              $titular_cuenta = $value['titular_cuenta'];*/ 
               
               $data[] = [
-                "0" => $cont++,
-                "1" => $value['estado'] ? '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idproveedor'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
-                    ' <button class="btn btn-danger btn-sm" onclick="eliminar(' . $value['idproveedor'] .', \''.encodeCadenaHtml($value['razon_social']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i></button>'.
-                    ' <button class="btn btn-info btn-sm" onclick="ver_mas_detalles('.$value['idproveedor'].')" data-toggle="tooltip" data-original-title="Ver mas datalles."><i class="far fa-eye"></i></button>'
-                    : '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idproveedor'] . ')"><i class="fa fa-pencil-alt"></i></button>' .
-                    ' <button class="btn btn-primary btn-sm" onclick="activar(' . $value['idproveedor'] . ')"><i class="fa fa-check"></i></button>',
-                "2" => '<div class="user-block">
-                  <span class="username ml-0" ><p class="text-primary m-b-02rem">' . $razon_social .'</p></span> 
-                  <span class="description ml-0"><b>' . $value['tipo_documento'] . '</b>: ' . $value['ruc'] . ' </span>'.
-                '</div>',
-                "3" => $direccion . (empty($value['telefono'])? '' : '<br>' . '<span class="text-gray font-size-13px"><b>Cel:</b> <a href="tel:+51' . quitar_guion($value['telefono']) . '" data-toggle="tooltip" data-original-title="Llamar al PROVEEDOR.">' . $value['telefono'] . '</a></span>' ) ,
-                "4" => ($value['nombre_banco'] == 'SIN BANCO' ? 'SIN BANCO' : '<div class="w-250px"><b>'.$value['nombre_banco'].':</b>' . $value['cuenta_bancaria'] . '<br> <b>CCI:</b> ' . $value['cci'] . '</div>' ).$toltip ,
-                "5" => $titular_cuenta,                
-                "6" => $value['razon_social'],
-                "7" => $value['tipo_documento'],
-                "8" => $value['ruc'],
-                "9" => $value['nombre_banco'],
-                "10" => $value['cuenta_bancaria'],
-                "11" => $value['cci'],
-                "12" => $value['cuenta_detracciones'],
-                "13" => $value['titular_cuenta'],
-                "14" => $value['direccion'],
-                "15" => $value['telefono'],
+                "0"=>$cont++,
+                "1" => $value['img'],
+                /*"2" => '<div class="user-block">'. 
+                  '<span class="username"><p class="text-primary m-b-02rem" >' . $value[''] . '</p></span>'. 
+                  '<span class="description"> DNI: ' . $value['dni'] . ' </span>'.
+                '</div>',*/
+                "3" => $value['descripcion'],
+                "4" => $value['tp_residuo'],
+                "5" => $value['referencia'],
+                "6" => $value['fecha'],
+                "8" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
+                "9"  => $value['estado'] ? '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
+                ($value['tipo_persona']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fas fa-skull-crossbones"></i> </button>' : ' <button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>' ) :
+                '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' . 
+                ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-check"></i></button>',
               ];
+
             }
             $results = [
               "sEcho" => 1, //Información para el datatables
@@ -116,6 +118,46 @@
             echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
           }
           
+        break;
+
+        case 'select2Empresa':
+
+          $rspta=$reporte_civil->select2ReporteCivil(); $cont = 1; $data = "";
+  
+          if ($rspta['status'] == true) {
+  
+            foreach ($rspta['data'] as $key => $value) {
+              $data .= '<option  value=' . $value['idusuario'] . ' title="'.$value['razon_social'].'">' . $cont++ . '. ' . $value['nombres'] .' - '. $value['dni'] . '</option>';
+            }
+  
+            $retorno = array('status' => true, 'message' => 'Salió todo ok',  'data' => $data, );
+    
+            echo json_encode($retorno, true);
+  
+          } else {
+  
+            echo json_encode($rspta, true); 
+          } 
+        break;
+
+        case 'select2TipoResiduo':
+
+          $rspta=$reporte_civil->select2TipoResiduo(); $cont = 1; $data = "";
+  
+          if ($rspta['status'] == true) {
+  
+            foreach ($rspta['data'] as $key => $value) {
+              $data .= '<option  value=' . $value['idtipo_residuo'] . ' title="'.$value['nombres'].'">' . $cont++ . '. ' . $value['nombres'] . '</option>';
+            }
+  
+            $retorno = array('status' => true, 'message' => 'Salió todo ok',  'data' => $data, );
+    
+            echo json_encode($retorno, true);
+  
+          } else {
+  
+            echo json_encode($rspta, true); 
+          } 
         break;
 
         case 'salir':

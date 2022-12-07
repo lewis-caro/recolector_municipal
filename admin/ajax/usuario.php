@@ -55,7 +55,7 @@
           in_array(1, $valores) ? ($_SESSION['inicio'] = 1): ($_SESSION['inicio'] = 0);
           in_array(2, $valores) ? ($_SESSION['acceso'] = 1): ($_SESSION['acceso'] = 0);
           in_array(3, $valores) ? ($_SESSION['designar'] = 1): ($_SESSION['designar'] = 0);  
-          in_array(4, $valores) ? ($_SESSION['resportes'] = 1): ($_SESSION['resportes'] = 0);        
+          in_array(4, $valores) ? ($_SESSION['reportes'] = 1): ($_SESSION['reportes'] = 0);        
         
 
         

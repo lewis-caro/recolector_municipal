@@ -82,7 +82,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
           <a href="" class="nav-item nav-link">Contactos</a>
         </div>
 
-        <a href="login.php" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
+        <a href="admin/" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
         <!--<a href="admin" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>-->
       </div>
     </nav>

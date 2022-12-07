@@ -4,41 +4,46 @@ var tabla;
 function init() {
 
   $("#bloc_Accesos").addClass("menu-open bg-color-191f24");
-
   $("#mAccesos").addClass("active");
-
   $("#lUsuario").addClass("active");
 
   tbla_principal();  
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
-  $("#guardar_registro_trabajador").on("click", function (e) {  $("#submit-form-trabajador").submit(); });
+  $("#guardar_registro_reporte").on("click", function (e) {  $("#submit-form-reporte").submit(); });
 
-  // restringimos la fecha para no elegir mañana
+  lista_select2("../ajax/reporte_civil.php?op=select2TipoResiduo", '#idtipo_residuo', null);
+
+  // restringimos la fecha_hoy para no elegir mañana
   no_select_tomorrow('#nacimiento_trab')
+
+  $("#fecha_hoy").val(moment().format('YYYY-MM-DD')).attr('readonly', 'readonly');
   
   // Formato para telefono
   $("[data-mask]").inputmask();   
 }
 
+// abrimos el navegador de archivos
+$("#doc1_i").click(function() {  $('#doc1').trigger('click'); });
+$("#doc1").change(function(e) {  addImageApplication(e, $("#doc1").attr("id")) });
+
+// Eliminamos el doc 1
+function doc1_eliminar() {
+
+	$("#doc1").val("");
+
+	$("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
+
+	$("#doc1_nombre").html("");
+}
+
 //Función limpiar
 function limpiar_form_usuario() {
-  $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
-  // Agregamos la validacion
-  $("#trabajador").rules('add', { required: true, messages: {  required: "Campo requerido" } });  
-  $("#password").rules('add', { required: true, messages: {  required: "Campo requerido" } });
 
-  //Select2 trabajador
-  lista_select2("../ajax/usuario.php?op=select2Trabajador", '#trabajador', null);
-
-  $("#idusuario").val("");
-  $("#trabajador_c").html("Trabajador"); 
-  $("#cargo").val("").trigger("change");
-  $("#login").val("");
-  $("#password").val("");
-  $("#password-old").val(""); 
-  
-  $(".modal-title").html("Agregar usuario");    
+  $("#idtipo_residuo").val("");
+  $("#descripcion").val(""); 
+  $("#referencia").val("");
+  $("#fecha_hoy").val("");    
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -91,12 +96,12 @@ function tbla_principal() {
 }
 
 //Función para guardar o editar
-function guardar_y_editar_usuario(e) {
+function guardar_y_editar_reporte(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-usuario")[0]);
+  var formData = new FormData($("#form-reporte")[0]);
 
   $.ajax({
-    url: "../ajax/usuario.php?op=guardar_y_editar_usuario",
+    url: "../ajax/reporte_civil.php?op=guardar_y_editar_reporte",
     type: "POST",
     data: formData,
     contentType: false,
@@ -146,7 +151,7 @@ function guardar_y_editar_usuario(e) {
   });
 }
 
-function mostrar(idusuario) {
+function mostrar(idreporte) {
   $(".tooltip").removeClass("show").addClass("hidde");
   $(".trabajador-name").html(`<i class="fas fa-spinner fa-pulse fa-2x"></i>`);  
 
@@ -166,7 +171,7 @@ function mostrar(idusuario) {
 
   $("#permisos").html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
 
-  $.post("../ajax/usuario.php?op=mostrar", { idusuario: idusuario }, function (data, status) {
+  $.post("../ajax/usuario.php?op=mostrar", { idreporte: idreporte }, function (data, status) {
 
     data = JSON.parse(data);  console.log(data); 
 
@@ -176,7 +181,7 @@ function mostrar(idusuario) {
     $("#cargo").val(data.data.cargo).trigger("change");
     $("#login").val(data.data.login);
     $("#password-old").val(data.data.password);
-    $("#idusuario").val(data.data.idusuario);
+    $("#idreporte").val(data.data.idreporte);
 
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();    
@@ -184,7 +189,7 @@ function mostrar(idusuario) {
   }).fail( function(e) { console.log(e); ver_errores(e); } );
 
   //Permiso
-  $.post(`../ajax/usuario.php?op=permisos&id=${idusuario}`, function (r) {
+  $.post(`../ajax/usuario.php?op=permisos&id=${idreporte}`, function (r) {
 
     r = JSON.parse(r); console.log(r);
 
@@ -195,12 +200,12 @@ function mostrar(idusuario) {
 }
 
 //Función para desactivar registros
-function eliminar(idusuario, nombre) {
+function eliminar(idreporte, nombre) {
   
   crud_eliminar_papelera(
     "../ajax/usuario.php?op=desactivar",
     "../ajax/usuario.php?op=eliminar", 
-    idusuario, 
+    idreporte, 
     "!Elija una opción¡", 
     `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
@@ -220,17 +225,19 @@ init();
 
 $(function () {
 
-  $("#form-usuario").validate({
-    ignore: '.select2-input, .select2-focusser',
+  $("#form-reporte").validate({
     rules: {
-      login:    { required: true, minlength: 3, maxlength: 20 },
-      password: { required: true, minlength: 4, maxlength: 20 },
-      cargo:    { required: true },
+      
+      idtipo_residuo:  { required: true },
+      descripcion: {  minlength: 3, maxlength: 45 },
+      referencia:  { required: true, minlength: 3, maxlength: 300 },
+      fecha_hoy:  { required: true},
     },
     messages: {
-      login:    { required: "Este campo es requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
-      password: { equired: "Campo requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
-      cargo:    { required: "Campo requerido." },
+      idtipo_residuo:    { required: "Este campo es requerido." },
+      descripcion: { minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 45 caracteres.", },
+      referencia:    { required: "Este campo es requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 300 caracteres.", },
+      fecha_hoy: { required: "Campo requerido." },
     },
     
     errorElement: "span",
@@ -249,31 +256,10 @@ $(function () {
     },
 
     submitHandler: function (e) {
-      guardar_y_editar_usuario(e);
+      guardar_y_editar_reporte(e);
     },
   });
   
 });
 
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
-
-function marcar_todos_permiso() {
-   
-  if ($(`#marcar_todo`).is(':checked')) {
-    $('.permiso').each(function(){ this.checked = true; });
-    $('.marcar_todo').html('Desmarcar Todo');
-  } else {
-    $('.permiso').each(function(){ this.checked = false; });
-    $('.marcar_todo').html('Marcar Todo');
-  }  
-}
-
-function sueld_mensual(){
-
-  var sueldo_mensual = $('#sueldo_mensual_trab').val()
-
-  var sueldo_diario=(sueldo_mensual/30).toFixed(1);
-
-  $("#sueldo_diario_trab").val(sueldo_diario);
-
-}

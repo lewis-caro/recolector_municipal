@@ -20,12 +20,12 @@ function init() {
 //Función limpiar
 function limpiar_form_usuario() { 
 
-  $("#idusuario").val("");
-  $("#trabajador_c").html("Trabajador"); 
-  $("#cargo").val("").trigger("change");
-  $("#login").val("");
-  $("#password").val("");
-  $("#password-old").val("");  
+  $("#nombres").val("");
+  $("#apellidos").val("");
+  $("#correo").val("");
+  $("#celular").val("");
+  $("#usuario").val("");
+  $("#password").val("");  
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -36,10 +36,10 @@ function limpiar_form_usuario() {
 //Función para guardar o editar
 function guardar_y_editar_usuario(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-usuario")[0]);
+  var formData = new FormData($("#formulario-registro-civil")[0]);
 
   $.ajax({
-    url: "../ajax/usuario.php?op=guardar_y_editar_usuario",
+    url: "ajax/registrar.php?op=guardar_y_editar_civil",
     type: "POST",
     data: formData,
     contentType: false,
@@ -48,9 +48,7 @@ function guardar_y_editar_usuario(e) {
       try {
         e = JSON.parse(e); console.log(e);
         if (e.status == true) {
-          tabla.ajax.reload(null, false);
-          show_hide_form(1); limpiar_form_usuario(); sw_success('Correcto!', "Usuario guardado correctamente." );
-          $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+         console.log('registradooooo');
         } else {
           ver_errores(d);
         }
@@ -85,7 +83,7 @@ function guardar_y_editar_usuario(e) {
       $("#barra_progress_usuario").css({ width: "0%", });
       $("#barra_progress_usuario").text("0%");
     },
-    error: function (jqXhr) { ver_errores(jqXhr); },
+    error: function (jqXhr) { /*ver_errores(jqXhr); */},
   });
 }
 
@@ -170,7 +168,7 @@ $(function () {
       apellidos:  { required: true, minlength: 3, maxlength: 20 },
       correo:     { required: true, minlength: 3, maxlength: 20 },
       celular:    { required: true, minlength: 3, maxlength: 20 },
-      login:      { required: true, minlength: 3, maxlength: 20 },
+      usuario:      { required: true, minlength: 3, maxlength: 20 },
       password:   { required: true, minlength: 4, maxlength: 20 },
     },
     messages: {
@@ -178,8 +176,8 @@ $(function () {
       apellidos:  { required: "Este campo es requerido." },
       correo:     { required: "Este campo es requerido." },
       celular:    { required: "Este campo es requerido." },
-      login:      { required: "Este campo es requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
-      password:   { equired: "Campo requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
+      usuario:      { required: "Este campo es requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
+      password:   { required: "Campo requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
     },
     
     errorElement: "span",
