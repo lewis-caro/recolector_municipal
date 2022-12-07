@@ -60,7 +60,7 @@
         break;
 
         case 'mostrar':
-          $rspta = $reporte_civil->mostrar($idproveedor);
+          $rspta = $reporte_civil->mostrar($idreporte);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
         break;
@@ -86,7 +86,7 @@
                 "0"=>$cont++,
                 "1" => $value['img'],
                 "2" => $value['descripcion'],
-                "3" => $value['idtipo_residuo'],
+                "3" => $value['tipo_residuo'],
                 "4" => $value['referencia'],
                 "5" => $value['fecha'],
                 "6" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,

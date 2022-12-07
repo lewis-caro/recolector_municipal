@@ -154,6 +154,8 @@ function guardar_y_editar_reporte(e) {
 }
 
 function cargar(idreporte) {
+
+  $('#modal-agregar-reporte').modal('show');
   
   $(".tooltip").removeClass("show").addClass("hidde");
   $(".trabajador-name").html(`<i class="fas fa-spinner fa-pulse fa-2x"></i>`);  
@@ -161,22 +163,8 @@ function cargar(idreporte) {
   
   limpiar_form_usuario();  
 
-  $(".modal-title").html("Editar usuario");
-  $("#trabajador").val("").trigger("change"); 
-  $("#trabajador_c").html(`Trabajador <b class="text-danger">(Selecione nuevo) </b>`);
 
-  $("#cargando-1-fomulario").hide();
-  $("#cargando-2-fomulario").show();
-
-  /*// Removemos la validacion
-  $("#trabajador").rules('remove', 'required');
-  $("#password").rules('remove', 'required');
-
-  //show_hide_form(2);
-
-  $("#permisos").html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');*/
-
-  $.post("../ajax/reporte_civil.php?op=cargar", { idreporte: idreporte }, function (data) {
+  $.post("../ajax/reporte_civil.php?op=mostrar", { idreporte: idreporte }, function (data) {
 
     data = JSON.parse(data);  console.log(data); 
 
@@ -185,7 +173,7 @@ function cargar(idreporte) {
     $("#descripcion").val(data.data.descripcion);
     $("#referencia").val(data.data.referencia);
     $("#doc1").val(data.data.doc1);
-    $("#fecha_hoy").val(data.data.fecha_hoy);
+    $("#fecha_hoy").val(data.data.fecha);
 
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();    

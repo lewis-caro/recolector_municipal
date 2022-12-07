@@ -22,9 +22,9 @@ class Reporte_Civil
   //Implementamos un método para editar registros
   public function editar($idreporte, $idtipo_residuo, $descripcion,  $referencia,  $img, $fecha) {   
 
-    $sql = "UPDATE reporte SET idreporte='$idreporte', idtipo_residuo='$idtipo_residuo',
+    $sql = "UPDATE reporte SET idtipo_residuo='$idtipo_residuo',
                     descripcion='$descripcion',referencia='$referencia',img='$img',fecha='$fecha',estado='1' 
-            WHERE 1";
+            WHERE idreporte='$idreporte'";
     return ejecutarConsulta($sql);      
 
   }
@@ -72,16 +72,17 @@ class Reporte_Civil
   }
 
   //Implementar un método para mostrar los datos de un registro a modificar
-  public function mostrar($idusuario) {
-    $sql = "SELECT u.idusuario, u.idtrabajador, u.cargo, u.login, u.password, u.estado, t.nombres 
-    FROM usuario AS u, trabajador AS t WHERE u.idusuario='$idusuario' AND u.idtrabajador = t.idtrabajador;";
+  public function mostrar($idreporte) {
+    $sql = "SELECT * FROM `reporte` WHERE idreporte='$idreporte'";
 
     return ejecutarConsultaSimpleFila($sql);
   }
 
   //Implementar un método para listar los registros
   public function tbla_principal() {
-    $sql = "SELECT * FROM `reporte` WHERE estado='1';";
+    $sql = "SELECT r.idreporte, r.idusuario, r.idtipo_residuo, r.descripcion, r.referencia, r.img, r.fecha, r.estado, tr.nombres as tipo_residuo 
+    FROM `reporte`as r, tipo_residuo as tr 
+    WHERE r.idtipo_residuo = tr.idtipo_residuo AND r.estado=1;";
     return ejecutarConsulta($sql);
   }
 
@@ -101,5 +102,7 @@ class Reporte_Civil
   
   
 }
+
+
 
 ?>
