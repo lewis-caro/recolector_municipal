@@ -83,10 +83,16 @@
 
                     <li><a><i class="fa fa-bars"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
+<<<<<<< HEAD
                       <?php if ($_SESSION['inicioT'] == 1) {  ?>
                           <li><a href="general_elements.html">Reportes de Trabajadores</a></li><?php  } ?>
                           <?php if ($_SESSION['inicioC'] == 1) {  ?>
                           <li><a href="reporte_civil.php">Reportes de civil</a></li><?php  } ?>
+=======
+                        <li><a href="tareas_trabajador.php">Mis Tareas pendientes y Hechas</a></li>
+                        <li><a href="reporte_civil.php">Reportes de civil</a></li>
+                        
+>>>>>>> 3f32726f8eaba75b6041a51ce40b03767be5e81d
                       </ul>
                     </li>
 
