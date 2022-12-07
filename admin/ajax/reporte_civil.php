@@ -13,11 +13,13 @@
 
       $reporte_civil = new Reporte_Civil();
 
+      date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
+
       $idreporte   = isset($_POST["idreporte"]) ? limpiarCadena($_POST["idreporte"]) : "";
       $idtipo_residuo   = isset($_POST["idtipo_residuo"]) ? limpiarCadena($_POST["idtipo_residuo"]) : "";
-      $descripcion  = isset($_POST["descripcion"]) ? limpiarCadena($fecha["descripcion"]) : "";
+      $descripcion  = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
       $referencia       = isset($_POST["referencia"]) ? limpiarCadena($_POST["referencia"]) : "";
-      $fecha       = isset($_POST["fecha_hoy"]) ? limpiarCadena($_POST["fecha_hoy"]) : "";
+      $fecha_hoy       = isset($_POST["fecha_hoy"]) ? limpiarCadena($_POST["fecha_hoy"]) : "";
       
 
       switch ($_GET["op"]) {
@@ -38,10 +40,10 @@
             
           }
           if (empty($idreporte)) {
-            $rspta = $reporte_civil->insertar( $idtipo_residuo, $descripcion,  $referencia,  $img, $fecha);
+            $rspta = $reporte_civil->insertar( $idtipo_residuo, $descripcion,  $referencia,  $doc1, $fecha_hoy);
             echo json_encode($rspta, true);
           } else {
-            $rspta = $reporte_civil->editar($idreporte, $idtipo_residuo, $descripcion,  $referencia,  $doc1, $fecha);
+            $rspta = $reporte_civil->editar($idreporte, $idtipo_residuo, $descripcion,  $referencia,  $doc1, $fecha_hoy);
             echo json_encode($rspta, true);
           }
         break;
@@ -77,32 +79,21 @@
 
           if ($rspta['status']) {   
           
-            foreach ($rspta['data'] as $key => $value) {   
-
-              /*$razon_social = '';  
-              $direccion = ''; 
-              $titular_cuenta = '';
-
-              $razon_social = $value['razon_social'];
-              $direccion = $value['direccion']; 
-              $titular_cuenta = $value['titular_cuenta'];*/ 
+            foreach ($rspta['data'] as $key => $value) {                
               
               $data[] = [
                 "0"=>$cont++,
                 "1" => $value['img'],
-                /*"2" => '<div class="user-block">'. 
-                  '<span class="username"><p class="text-primary m-b-02rem" >' . $value[''] . '</p></span>'. 
-                  '<span class="description"> DNI: ' . $value['dni'] . ' </span>'.
-                '</div>',*/
-                "3" => $value['descripcion'],
-                "4" => $value['tp_residuo'],
-                "5" => $value['referencia'],
-                "6" => $value['fecha'],
-                "8" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
-                "9"  => $value['estado'] ? '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
-                ($value['tipo_persona']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fas fa-skull-crossbones"></i> </button>' : ' <button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>' ) :
-                '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' . 
-                ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-check"></i></button>',
+                "2" => $value['descripcion'],
+                "3" => $value['idtipo_residuo'],
+                "4" => $value['referencia'],
+                "5" => $value['fecha'],
+                "6" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
+
+                "7"  => $value['estado'] ? 
+                '<button class="btn btn-primary btn-sm" onclick="mostrar(' . $value['idreporte'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
+                '<button class="btn btn-danger  btn-sm" onclick="activar(' . $value['idreporte'] . ')" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-trash"></i></button>':
+                '<button class="btn btn-primary  btn-sm" onclick="mostrar(' . $value['idreporte'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>',
               ];
 
             }

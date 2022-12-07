@@ -92,16 +92,16 @@
                               <div class="row">
                                 <div class="col-sm-12">
                                   <div class="card-box table-responsive">
-                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <table id="tabla-civil" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                       <thead>
                                         <tr>
                                           <th class="center">#</th>
                                           <th>Imagen</th>
                                           <th>Descripción</th>
                                           <th>Tipo Residuo</th>
-                                          <th>Zona</th>
                                           <th>Referencia</th>
                                           <th>fecha</th>
+                                          <th>estado</th>
                                           <th class="">Acciones</th>
                                         </tr>
                                       </thead>
@@ -194,6 +194,15 @@
 
                                     <!-- linea divisoria -->
                                     <div class="col-lg-12 borde-arriba-naranja mt-2"> </div>
+                                  </div>
+
+                                  <!-- barprogress -->
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
+                                    <div class="progress" id="barra_progress_div">
+                                      <div id="barra_progress" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                                        0%
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
 

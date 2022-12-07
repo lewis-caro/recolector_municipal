@@ -22,8 +22,7 @@ class Reporte_Civil
   //Implementamos un método para editar registros
   public function editar($idreporte, $idtipo_residuo, $descripcion,  $referencia,  $img, $fecha) {   
 
-    $sql = "UPDATE usuario SET 
-    idtrabajador='$trab', cargo='$cargo', login='$login', password='$clave', user_updated= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
+    $sql = "";
     return ejecutarConsulta($sql);      
 
   }
@@ -90,9 +89,7 @@ class Reporte_Civil
 
   //Implementar un método para listar los registros
   public function tbla_principal() {
-    $sql = "SELECT r.imagen, tp.nombres, z.nombre, r.referencia, tp.nombres as tipo_residuo, z.nombre as zona, r.estado 
-    FROM reporte_morador as r, tipo_residuo as tp, zonas as z
-    WHERE r.idtipo_residuo = tp.idtipo_residuo AND r.idzonas = z.idzonas AND r.estado=1 ORDER BY tp.nombres ASC;";
+    $sql = "SELECT * FROM `reporte` WHERE estado='1';";
     return ejecutarConsulta($sql);
   }
 

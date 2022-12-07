@@ -55,7 +55,7 @@ function limpiar_form_usuario() {
 //Función Listar
 function tbla_principal() {
 
-  tabla = $('#tabla-usuarios').dataTable({
+  tabla = $('#tabla-civil').dataTable({
     responsive: true,
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
     aProcessing: true,//Activamos el procesamiento del datatables
@@ -67,7 +67,7 @@ function tbla_principal() {
       { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,1,2,3,4,5,6,7], } } ,
     ],
     ajax:{
-      url: '../ajax/usuario.php?op=tbla_principal',
+      url: '../ajax/reporte_civil.php?op=tbla_principal',
       type : "get",
       dataType : "json",						
       error: function(e){        
@@ -111,8 +111,10 @@ function guardar_y_editar_reporte(e) {
         e = JSON.parse(e); console.log(e);
         if (e.status == true) {
           tabla.ajax.reload(null, false);
-          show_hide_form(1); limpiar_form_usuario(); sw_success('Correcto!', "Usuario guardado correctamente." );
-          $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+          limpiar_form_usuario(); 
+          sw_success('Correcto!', "Usuario guardado correctamente." );
+          $("#guardar_registro_reporte").html('Guardar Cambios').removeClass('disabled');
+          $('#modal-agregar-reporte').modal('hide');
         } else {
           ver_errores(d);
         }
@@ -127,9 +129,9 @@ function guardar_y_editar_reporte(e) {
           var prct = (evt.loaded / evt.total) * 100;
           prct = Math.round(prct);
 
-          $("#barra_progress_usuario").css({ width: prct + "%", });
+          $("#barra_progress").css({ width: prct + "%", });
 
-          $("#barra_progress_usuario").text(prct + "%");
+          $("#barra_progress").text(prct + "%");
 
         }
       }, false );
@@ -137,15 +139,15 @@ function guardar_y_editar_reporte(e) {
       return xhr;
     },
     beforeSend: function () {
-      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#div_barra_progress_usuario").show();
-      $("#barra_progress_usuario").css({ width: "0%",  });
-      $("#barra_progress_usuario").text("0%");
+      $("#guardar_registro_reporte").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_div").show();
+      $("#barra_progress").css({ width: "0%",  });
+      $("#barra_progress").text("0%");
     },
     complete: function () {
-      $("#div_barra_progress_usuario").hide();
-      $("#barra_progress_usuario").css({ width: "0%", });
-      $("#barra_progress_usuario").text("0%");
+      $("#barra_progress_div").hide();
+      $("#barra_progress").css({ width: "0%", });
+      $("#barra_progress").text("0%");
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
