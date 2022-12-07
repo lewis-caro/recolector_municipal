@@ -13,45 +13,9 @@ class Usuario
   public function insertar($idtipo_persona, $idzona, $dni, $nombre_usuario, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos) {
 
     // insertamos al usuario
-    $sql = "INSERT INTO usuario ( idtipo_persona, idzonas, dni, nombres, edad, telefono, tipo_persona, cargo, login, password, email, zonas, direccion, user_created) 
-    VALUES ('$idtipo_persona', '$idzona', '$dni', '$nombre_usuario', '$edad', '$telefono', '$login', '$clave', '$email', '$direccion', '$img_perfil','" . $_SESSION['idusuario'] . "')";
-    $data_user = ejecutarConsulta_retornarID($sql); if ($data_user['status'] == false){return $data_user; }
-
-    //add registro en nuestra bitacora
-    $sql2 = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario','" . $data_user['data'] . "','Registrar','" . $_SESSION['idusuario'] . "')";
-    $bitacora1 = ejecutarConsulta($sql2); if ( $bitacora1['status'] == false) {return $bitacora1; }
-
-    $num_elementos = 0; $sw = "";
-
-    if ( !empty($permisos) ) {
-
-      while ($num_elementos < count($permisos)) {
-        
-        $idusuarionew = $data_user['data'];
-
-        $sql_detalle = "INSERT INTO usuario_permiso(idusuario, idpermiso, user_created) VALUES('$idusuarionew', '$permisos[$num_elementos]','" . $_SESSION['idusuario'] . "')";
-
-        $sw = ejecutarConsulta_retornarID($sql_detalle);  
-
-        if ( $sw['status'] == false) {return $sw; }
-
-        //add registro en nuestra bitacora
-        $sql2 = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','" .  $sw['data'] . "','Registrar permisos','" . $_SESSION['idusuario'] . "')";
-        $bitacora = ejecutarConsulta($sql2);
-
-        if ( $bitacora['status'] == false) {return $bitacora; }
-
-        $num_elementos++;
-
-      }
-
-      return $sw;
-
-    }else{
-
-      return $data_user;
-
-    }
+    $sql = "INSERT INTO usuario ( idtipo_persona, idzonas, dni, nombres, edad, telefono, login, password, email, direccion) 
+    VALUES ('$idtipo_persona', '$idzona', '$dni', '$nombre_usuario', '$edad', '$telefono', '$login', '$clave', '$email', '$direccion')";
+    return ejecutarConsulta($sql);
 
   }
 
@@ -109,12 +73,7 @@ class Usuario
     $desactivar = ejecutarConsulta($sql);
     
     if ( $desactivar['status'] == false) {return $desactivar; }    
-
-    //add registro en nuestra bitacora
-    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro desactivado','" . $_SESSION['idusuario'] . "')";
-    $bitacorade = ejecutarConsulta($sqlde);
-
-    if ( $bitacorade['status'] == false) {return $bitacorade; }   
+   
 
     return $desactivar;
   }
@@ -125,13 +84,6 @@ class Usuario
 
     $activar= ejecutarConsulta($sql);
         
-    if ( $activar['status'] == false) {return $activar; }    
-
-    //add registro en nuestra bitacora
-    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro activado','" . $_SESSION['idusuario'] . "')";
-    $bitacorade = ejecutarConsulta($sqlde);
-
-    if ( $bitacorade['status'] == false) {return $bitacorade; }   
 
     return $activar;
   }
@@ -142,14 +94,7 @@ class Usuario
 
     $eliminar= ejecutarConsulta($sql);
         
-    if ( $eliminar['status'] == false) {return $eliminar; }    
-
-    //add registro en nuestra bitacora
-    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro Eliminado','" . $_SESSION['idusuario'] . "')";
-    $bitacorade = ejecutarConsulta($sqlde);
-
-    if ( $bitacorade['status'] == false) {return $bitacorade; }   
-
+    
     return $eliminar;
 
   }
@@ -166,7 +111,7 @@ class Usuario
   public function listar() {
     $sql = "SELECT u.idusuario, u.nombres, u.dni, u.login, u.password, u.edad, u.direccion, u.telefono, u.email, u.img_perfil, tp.nombre as tipo_persona, z.nombre as zona, u.estado 
     FROM usuario as u, tipo_persona as tp, zonas as z 
-    WHERE u.idtipo_persona = tp.idtipo_persona AND u.idzonas = z.idzonas AND u.estado=1 ORDER BY u.nombres ASC;";
+    WHERE u.idtipo_persona = tp.idtipo_persona AND u.idzonas = z.idzonas AND u.estado=1 ORDER BY tp.nombre ASC;";
     return ejecutarConsultaArray($sql);
   }
 

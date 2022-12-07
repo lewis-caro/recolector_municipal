@@ -305,102 +305,6 @@ function limpiar_form_usuario() {
   $(".error.invalid-feedback").remove();
 }
 
-//Función para guardar o editar
-function guardar_y_editar_usuario(e) {
-  // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-trabajador")[0]);
-  $("#div_barra_progress_trabajador").show();
-
-  $.ajax({
-    url: "../ajax/usuario.php?op=guardar_y_editar_usuario",
-    type: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function (e) { 
-      try {
-        e = JSON.parse(e); console.log(e);
-        if (e.status == true) {
-
-          lista_select2("../ajax/usuario.php?op=select2Trabajador", '#trabajador', e.id_tabla);
-          
-          sw_success('Correcto!', "Trabajador guardado correctamente." );      
-
-          limpiar_form_usuario();
-
-          $("#modal-agregar-usuario").modal("hide");
-    
-          $("#guardar_registro_usuario").html('Guardar Cambios').removeClass('disabled');
-        } else {
-          ver_errores(d);
-        }
-      } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }             
-    },
-    xhr: function () {
-      var xhr = new window.XMLHttpRequest();
-
-      xhr.upload.addEventListener( "progress", function (evt) {
-
-        if (evt.lengthComputable) {
-          var prct = (evt.loaded / evt.total) * 100;
-          prct = Math.round(prct);
-
-          $("#barra_progress_trabajador").css({ width: prct + "%", });
-
-          $("#barra_progress_trabajador").text(prct + "%");
-
-        }
-      }, false );
-
-      return xhr;
-    },
-    beforeSend: function () {
-      $("#guardar_registro_usuario").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#div_barra_progress_trabajador").show();
-      $("#barra_progress_trabajador").css({ width: "0%",  });
-      $("#barra_progress_trabajador").text("0%");
-    },
-    complete: function () {
-      $("#div_barra_progress_trabajador").hide();
-      $("#barra_progress_trabajador").css({ width: "0%", });
-      $("#barra_progress_trabajador").text("0%");
-    },
-    error: function (jqXhr) { ver_errores(jqXhr); },
-  });
-
-}
-
-// damos formato a: Cta, CCI
-function formato_banco() {
-
-  if ($("#banco_trab").select2("val") == null || $("#banco_trab").select2("val") == "" || $("#banco_trab").select2("val") == '1') {
-
-    $("#cta_bancaria_trab").prop("readonly",true);   $("#cci_trab").prop("readonly",true);
-  } else {
-    
-    $(".chargue-format-1").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>'); $(".chargue-format-2").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>');
-
-    $("#cta_bancaria_trab").prop("readonly",false);   $("#cci_trab").prop("readonly",false);
-
-    $.post("../ajax/ajax_general.php?op=formato_banco", { idbanco: $("#banco_trab").select2("val") }, function (e, status) {
-
-      e = JSON.parse(e);  console.log(e); 
-
-      if (e.status) {
-        $(".chargue-format-1").html('Cuenta Bancaria'); $(".chargue-format-2").html('CCI');
-
-        var format_cta = decifrar_format_banco(e.data.formato_cta); var format_cci = decifrar_format_banco(e.data.formato_cci);
-
-        $("#cta_bancaria_trab").inputmask(`${format_cta}`);
-
-        $("#cci_trab").inputmask(`${format_cci}`);
-      } else {
-        ver_errores(e);
-      }      
-
-    }).fail( function(e) { ver_errores(e); } );   
-  }  
-}
 
 init();
 
@@ -414,7 +318,7 @@ $(function () {
       dni: { required: true, minlength: 8, maxlength: 8 },
       nombre_usuario:  { required: true, minlength: 6, maxlength: 20 },
       edad:  { required: true },
-      tipo_usuario:  { required: true},
+      idtipo_persona:  { required: true},
       login:         { required: true, minlength: 6, maxlength: 100 },
       password:          { required:true},
       direccion:      { minlength: 5, maxlength: 70 },
@@ -425,7 +329,7 @@ $(function () {
       dni: { required: "MÍNIMO 8 caracteres.", },
       nombre_usuario:         { required: "Campo requerido.", minlength: "MÍNIMO 6 caracteres.", maxlength: "MÁXIMO 100 caracteres.", },
       edad:          { required: "Campo requerido.", },
-      tipo_usuario:          { required: "Campo requerido.", },
+      idtipo_persona:          { required: "Campo requerido.", },
       login:              { minlength: "Campo requerido.", },
       password:          { minlength: "Campo requerido.", },
       direccion :        { required: "Campo requerido.", },

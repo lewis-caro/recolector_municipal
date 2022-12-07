@@ -18,10 +18,26 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <!-------------------------INICIO--------------------------> 
-                    <?php if ($_SESSION['inicio'] == 1) {  ?>
+                    <?php if ($_SESSION['inicioA'] == 1) {  ?>
                         
                         <li>
-                            <a><i href="inicio.php" class="fa fa-home"></i> Home </a>
+                            <a><i href="inicioA.php" class="fa fa-home"></i> Home </a>
+                        </li>
+                    <?php } ?>
+                  <!-------------------------INICIO-------------------------->
+                  <!-------------------------INICIO--------------------------> 
+                  <?php if ($_SESSION['inicioT'] == 1) {  ?>
+                        
+                        <li>
+                            <a><i href="inicioT.php" class="fa fa-home"></i> Home </a>
+                        </li>
+                    <?php } ?>
+                  <!-------------------------INICIO--------------------------> 
+                  <!-------------------------INICIO--------------------------> 
+                  <?php if ($_SESSION['inicioC'] == 1) {  ?>
+                        
+                        <li>
+                            <a><i href="inicioC.php" class="fa fa-home"></i> Home </a>
                         </li>
                     <?php } ?>
                   <!-------------------------INICIO--------------------------> 
@@ -63,13 +79,14 @@
                    <!-------------------------Designar------------------------->
                    
                    <!-------------------------Designar------------------------->
-                   <?php if ($_SESSION['designar'] == 1) {  ?>
+                   <?php if ($_SESSION['reportes'] == 1) {  ?>
 
                     <li><a><i class="fa fa-bars"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a href="general_elements.html">Reportes de Trabajadores</a></li>
-                        <li><a href="reporte_civil.php">Reportes de civil</a></li>
-                        
+                      <?php if ($_SESSION['inicioT'] == 1) {  ?>
+                          <li><a href="general_elements.html">Reportes de Trabajadores</a></li><?php  } ?>
+                          <?php if ($_SESSION['inicioC'] == 1) {  ?>
+                          <li><a href="reporte_civil.php">Reportes de civil</a></li><?php  } ?>
                       </ul>
                     </li>
 

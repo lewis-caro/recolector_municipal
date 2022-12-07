@@ -27,7 +27,7 @@
 
           //Declaramos las variables de sesión
           $_SESSION['idusuario'] = $rspta['data']['idusuario'];
-          $_SESSION['nombre'] = $rspta['data']['nombres'];
+          $_SESSION['nombres'] = $rspta['data']['nombres'];
           $_SESSION['imagen'] = $rspta['data']['img_perfil'];
           $_SESSION['login'] = $rspta['data']['login'];
           $_SESSION['tipoPersona'] = $rspta['data']['tipoPersona'];
@@ -52,10 +52,12 @@
           }       
 
           //Determinamos los accesos del usuario
-          in_array(1, $valores) ? ($_SESSION['inicio'] = 1): ($_SESSION['inicio'] = 0);
+          in_array(1, $valores) ? ($_SESSION['inicioA'] = 1): ($_SESSION['inicioA'] = 0);
           in_array(2, $valores) ? ($_SESSION['acceso'] = 1): ($_SESSION['acceso'] = 0);
           in_array(3, $valores) ? ($_SESSION['designar'] = 1): ($_SESSION['designar'] = 0);  
-          in_array(4, $valores) ? ($_SESSION['reportes'] = 1): ($_SESSION['reportes'] = 0);        
+          in_array(4, $valores) ? ($_SESSION['reportes'] = 1): ($_SESSION['reportes'] = 0); 
+          in_array(5, $valores) ? ($_SESSION['inicioT'] = 1): ($_SESSION['inicioT'] = 0);
+          in_array(6, $valores) ? ($_SESSION['inicioC'] = 1): ($_SESSION['inicioC'] = 0);       
         
 
         
@@ -95,7 +97,7 @@
   $idtipo_persona        = isset($_POST["idtipo_persona"]) ? limpiarCadena($_POST["idtipo_persona"]) : "";
   $idzona       = isset($_POST["idzonas"]) ? limpiarCadena($_POST["idzonas"]) : "";
   $dni              = isset($_POST["dni"]) ? limpiarCadena($_POST["dni"]) : "";
-  $nombre_usuario   = isset($_POST["nombres"]) ? limpiarCadena($_POST["nombres"]) : "";
+  $nombre_usuario   = isset($_POST["nombre_usuario"]) ? limpiarCadena($_POST["nombre_usuario"]) : "";
   $edad             = isset($_POST["edad"]) ? limpiarCadena($_POST["edad"]) : "";
   $telefono         = isset($_POST["telefono"]) ? limpiarCadena($_POST["telefono"]) : "";
   $login            = isset($_POST["login"]) ? limpiarCadena($_POST["login"]) : "";
@@ -198,10 +200,11 @@
             "6" => $value['tipo_persona'],
             "7" => $value['email'],
             "8" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
-            "9"  => $value['estado'] ? '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
-            ($value['tipo_persona']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fas fa-skull-crossbones"></i> </button>' : ' <button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>' ) :
-            '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' . 
-            ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-check"></i></button>',
+            "9"  => $value['estado'] ? 
+            '<button class="btn btn-primary btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' .
+            ($value['tipo_persona']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fa fa-trash"></i> </button>' : ' <button class="btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fa fa-trash"></i> </button>' ) :
+            '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
+            ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-trash"></i></button>',
           ];
           
         }

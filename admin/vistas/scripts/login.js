@@ -56,7 +56,20 @@ function validar_response(e) {
 
             if (redirecinando.file == '' || redirecinando.file == null ) {
                 //console.log('vacio perrro');
-                $(location).attr("href","inicio.php");
+                ///$(location).attr("href","usuarios.php");
+               //console.log(e.data.tipoPersona);
+               if (e.data.tipoPersona =="ADMINISTRADOR") {
+                    $(location).attr("href","inicioA.php");
+               }else if (e.data.tipoPersona =="TRABAJADOR"){
+                    $(location).attr("href","inicioT.php");
+                    
+               }else if (e.data.tipoPersona =="CIVIL") {
+
+                    $(location).attr("href","inicioC.php");
+                    
+
+               }
+                
             } else {
                 //console.log(redirecinando.file);
                 $(location).attr("href",redirecinando.file);                                

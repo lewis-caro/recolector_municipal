@@ -3,7 +3,7 @@
   ob_start();
   session_start();
 
-  if (!isset($_SESSION["nombre"])){
+  if (!isset($_SESSION["nombres"])){
       header("Location: index.php?file=".basename($_SERVER['PHP_SELF']));
   }else{ ?>
     <!DOCTYPE html>
@@ -32,7 +32,7 @@
       </head>
 
       <body class="nav-md">
-        <div class="container body" style="background: #432345;">
+        <div class="container body">
           <div class="main_container">
             <?php 
             //------Navegador y Menú -----
@@ -175,11 +175,12 @@
                                   <!-- Categoria -->
                                   <div class="col-12 col-sm-12 col-md-5 col-lg-5">
                                     <div class="form-group">
-                                      <label for="tipo_usuario">Rol <sup class="text-danger">(unico*)</sup></label>
-                                      <select name="tipo_usuario" id="tipo_usuario" class="form-control select2" style="width: 100%;"> 
-                                        <option value="1">Adminstrador</option>
-                                        <option value="2">Trabajador</option>
-                                        <option value="3">Civil</option>                                        
+                                      <label for="idtipo_persona">Rol <sup class="text-danger">(unico*)</sup></label>
+                                      <select name="idtipo_persona" id="idtipo_persona" class="form-control select2" style="width: 100%;">
+                                      <option value="1">Adminstrador</option> 
+                                        <option value="2">Adminstrador</option>
+                                        <option value="3">Trabajador</option>
+                                        <option value="4">Civil</option>                                        
                                       </select>
                                     </div>
                                   </div>
@@ -211,8 +212,12 @@
                                   <!-- Zona -->
                                   <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                      <label for="zona">Zona <sup class="text-danger">(unico*)</sup></label>
-                                      <select name="zona" id="zona" class="form-control select2" style="width: 100%;"> </select>
+                                      <label for="idzonas">Zona <sup class="text-danger">(unico*)</sup></label>
+                                      <select name="idzonas" id="idzonas" class="form-control select2" style="width: 100%;"> 
+                                        <option value="1">NINGUNO</option>
+                                        <option value="2">LA FLORIDA</option>
+                                        <option value="3">7 ESQUINAS</option>
+                                      </select>
                                     </div>
                                   </div>
 
