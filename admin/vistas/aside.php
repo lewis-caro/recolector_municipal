@@ -67,7 +67,7 @@
 
                     <li><a><i class="fa fa-bars"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a href="general_elements.html">Reportes de Trabajadores</a></li>
+                        <li><a href="tareas_trabajador.php">Mis Tareas pendientes y Hechas</a></li>
                         <li><a href="reporte_civil.php">Reportes de civil</a></li>
                         
                       </ul>

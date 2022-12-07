@@ -1,0 +1,99 @@
+<?php
+//Incluímos inicialmente la conexión a la base de datos
+require "../config/Conexion_v2.php";
+
+class Tareas_trabajador
+{
+  //Implementamos nuestro constructor
+  public function __construct()
+  {
+  }
+
+  //Implementamos un método para eliminar usuario
+ public function eliminar($idreporte) {
+    $sql = "UPDATE reporte SET estado='0' WHERE idreporte='$idreporte'";
+
+    return ejecutarConsulta($sql);
+
+  }
+
+  //Recuperamos la tarea borrada por error
+  public function recuperar($idreporte) {
+    $sql = "UPDATE reporte SET estado='1' WHERE idreporte='$idreporte'";
+
+    return ejecutarConsulta($sql);
+
+  }
+
+  //Implementar un método para listar los registros
+  public function tbla_principal($estado) {
+    $sql = "SELECT r.idreporte, r.idusuario, r.idtipo_residuo, r.descripcion, r.referencia, 
+                    r.img, r.fecha, r.estado, z.nombre as zona, u.nombres as nombre_civil, tr.nombres as tipo_residuo
+    FROM `reporte` as r, usuario as u, zonas as z, tipo_residuo as tr
+    WHERE r.idusuario=u.idusuario and u.idzonas=z.idzonas AND r.idtipo_residuo=tr.idtipo_residuo AND r.estado='$estado';";
+
+    return ejecutarConsultaArray($sql);
+  }
+
+  //Implementar un método para listar los registros
+  public function select2ReporteCivil() {
+    $sql = "SELECT idusuario, idtipo_persona, idzonas, nombres, dni, login, password, edad, direccion, telefono, email, img_perfil, estado 
+    FROM usuario as u, tipo_persona as tp 
+    WHERE u.idtipo_persona = tp.idtipo_persona AND tp.idtipo_persona = '4' AND u.estado = '1' ORDER BY tp.nombres ASC;";
+    return ejecutarConsultaArray($sql);
+  }
+
+  //Implementar un método para listar los registros
+  public function select2TipoResiduo() {
+    $sql = "SELECT * FROM `tipo_residuo` WHERE estado = '1' ORDER BY idtipo_residuo ASC;";
+    return ejecutarConsultaArray($sql);
+  }
+
+   //Implementar un método para mostrar los datos de un registro a modificar
+   public function mostrar($idreporte) {
+    $sql = "SELECT * FROM `reporte` WHERE idreporte='$idreporte'";
+
+    return ejecutarConsultaSimpleFila($sql);
+  }
+
+  
+  //Implementamos un método para desactivar categorías
+  /*public function desactivar($idusuario) {
+    $sql = "UPDATE usuario SET estado='0', user_trash= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
+
+    $desactivar = ejecutarConsulta($sql);
+    
+    if ( $desactivar['status'] == false) {return $desactivar; }    
+
+    //add registro en nuestra bitacora
+    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro desactivado','" . $_SESSION['idusuario'] . "')";
+    $bitacorade = ejecutarConsulta($sqlde);
+
+    if ( $bitacorade['status'] == false) {return $bitacorade; }   
+
+    return $desactivar;
+  }*/
+
+  //Implementamos un método para activar :: !!sin usar ::
+  /*public function activar($idusuario) {
+    $sql = "UPDATE usuario SET estado='1', user_updated= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
+
+    $activar= ejecutarConsulta($sql);
+        
+    if ( $activar['status'] == false) {return $activar; }    
+
+    //add registro en nuestra bitacora
+    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro activado','" . $_SESSION['idusuario'] . "')";
+    $bitacorade = ejecutarConsulta($sqlde);
+
+    if ( $bitacorade['status'] == false) {return $bitacorade; }   
+
+    return $activar;
+  }*/
+  
+  
+}
+
+
+
+?>
