@@ -53,8 +53,9 @@
           echo json_encode($rspta, true);
         break;
 
-        case 'eliminar':
-          $rspta = $reporte_civil->eliminar($_GET["id_tabla"]);
+        //Borramos mi registro en reporte
+        case 'borrar':
+          $rspta = $reporte_civil->eliminar($_POST['idreporte']);
           echo json_encode($rspta, true);
         break;
 
@@ -90,10 +91,9 @@
                 "5" => $value['fecha'],
                 "6" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
 
-                "7"  => $value['estado'] ? 
-                '<button class="btn btn-primary btn-sm" onclick="mostrar(' . $value['idreporte'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
-                '<button class="btn btn-danger  btn-sm" onclick="activar(' . $value['idreporte'] . ')" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-trash"></i></button>':
-                '<button class="btn btn-primary  btn-sm" onclick="mostrar(' . $value['idreporte'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>',
+                "7"  =>  
+                '<button class="btn btn-primary btn-sm" onclick="cargar(' . $value['idreporte'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
+                '<button class="btn btn-danger  btn-sm" onclick="borrar(' . $value['idreporte'] . ',\''.$value['descripcion'].'\')" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-trash"></i></button>',
               ];
 
             }

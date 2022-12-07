@@ -22,7 +22,9 @@ class Reporte_Civil
   //Implementamos un método para editar registros
   public function editar($idreporte, $idtipo_residuo, $descripcion,  $referencia,  $img, $fecha) {   
 
-    $sql = "";
+    $sql = "UPDATE reporte SET idreporte='$idreporte', idtipo_residuo='$idtipo_residuo',
+                    descripcion='$descripcion',referencia='$referencia',img='$img',fecha='$fecha',estado='1' 
+            WHERE 1";
     return ejecutarConsulta($sql);      
 
   }
@@ -62,20 +64,10 @@ class Reporte_Civil
   }
 
   //Implementamos un método para eliminar usuario
-  public function eliminar($idusuario) {
-    $sql = "UPDATE usuario SET estado_delete='0',user_delete= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
+  public function eliminar($idreporte) {
+    $sql = "UPDATE reporte SET estado='0' WHERE idreporte='$idreporte'";
 
-    $eliminar= ejecutarConsulta($sql);
-        
-    if ( $eliminar['status'] == false) {return $eliminar; }    
-
-    //add registro en nuestra bitacora
-    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro Eliminado','" . $_SESSION['idusuario'] . "')";
-    $bitacorade = ejecutarConsulta($sqlde);
-
-    if ( $bitacorade['status'] == false) {return $bitacorade; }   
-
-    return $eliminar;
+    return ejecutarConsulta($sql);
 
   }
 

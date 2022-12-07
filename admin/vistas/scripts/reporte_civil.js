@@ -30,11 +30,11 @@ $("#doc1").change(function(e) {  addImageApplication(e, $("#doc1").attr("id")) }
 // Eliminamos el doc 1
 function doc1_eliminar() {
 
-	$("#doc1").val("");
+	//$("#doc1").val("");
 
 	$("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
 
-	$("#doc1_nombre").html("");
+	//$("#doc1_nombre").html("");
 }
 
 //Función limpiar
@@ -153,37 +153,39 @@ function guardar_y_editar_reporte(e) {
   });
 }
 
-function mostrar(idreporte) {
+function cargar(idreporte) {
+  
   $(".tooltip").removeClass("show").addClass("hidde");
   $(".trabajador-name").html(`<i class="fas fa-spinner fa-pulse fa-2x"></i>`);  
 
+  
   limpiar_form_usuario();  
 
   $(".modal-title").html("Editar usuario");
   $("#trabajador").val("").trigger("change"); 
   $("#trabajador_c").html(`Trabajador <b class="text-danger">(Selecione nuevo) </b>`);
+
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
 
-  // Removemos la validacion
+  /*// Removemos la validacion
   $("#trabajador").rules('remove', 'required');
   $("#password").rules('remove', 'required');
 
-  show_hide_form(2);
+  //show_hide_form(2);
 
-  $("#permisos").html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
+  $("#permisos").html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');*/
 
-  $.post("../ajax/usuario.php?op=mostrar", { idreporte: idreporte }, function (data, status) {
+  $.post("../ajax/reporte_civil.php?op=cargar", { idreporte: idreporte }, function (data) {
 
     data = JSON.parse(data);  console.log(data); 
 
-    $(".trabajador-name").html(` <i class="fas fa-users-cog text-primary"></i> <b class="texto-parpadeante font-size-20px">${data.data.nombres}</b> `);    
-
-    $("#trabajador_old").val(data.data.idtrabajador);
-    $("#cargo").val(data.data.cargo).trigger("change");
-    $("#login").val(data.data.login);
-    $("#password-old").val(data.data.password);
     $("#idreporte").val(data.data.idreporte);
+    $("#idtipo_residuo").val(data.data.idtipo_residuo);
+    $("#descripcion").val(data.data.descripcion);
+    $("#referencia").val(data.data.referencia);
+    $("#doc1").val(data.data.doc1);
+    $("#fecha_hoy").val(data.data.fecha_hoy);
 
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();    
@@ -191,36 +193,58 @@ function mostrar(idreporte) {
   }).fail( function(e) { console.log(e); ver_errores(e); } );
 
   //Permiso
-  $.post(`../ajax/usuario.php?op=permisos&id=${idreporte}`, function (r) {
+  /*$.post(`../ajax/usuario.php?op=permisos&id=${idreporte}`, function (r) {
 
     r = JSON.parse(r); console.log(r);
 
     if (r.status) { $("#permisos").html(r.data); } else { ver_errores(e); }
     //$("#permiso_4").rules('add', { required: true, messages: {  required: "Campo requerido" } });
     
-  }).fail( function(e) { console.log(e); ver_errores(e); } );
+  }).fail( function(e) { console.log(e); ver_errores(e); } );*/
 }
 
 //Función para desactivar registros
-function eliminar(idreporte, nombre) {
+// function borrar(idreporte, nombre) {
   
-  crud_eliminar_papelera(
-    "../ajax/usuario.php?op=desactivar",
-    "../ajax/usuario.php?op=eliminar", 
-    idreporte, 
-    "!Elija una opción¡", 
-    `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
-    function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
-    function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
-    function(){ tabla.ajax.reload(null, false) },
-    false, 
-    false, 
-    false,
-    false
-  );
+//   crud_eliminar_papelera(
+//     "../ajax/reporte_civil.php?op=desactivar",
+//     "../ajax/reporte_civil.php?op=borrar", 
+//     idreporte, 
+//     "!Elija una opción¡", 
+//     `<b class="text-danger"><del>${nombre}</del></b><br> 
+//       En <b>papelera</b> encontrará este registro!<br> 
+//       Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`,
+
+//     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
+//     function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
+//     function(){ tabla.ajax.reload(null, false) },
+//     false, 
+//     false, 
+//     false,
+//     false
+//   );
+// }
+
+//Traemos del ajax line 56 y eliminamos el reporte
+function borrar(idreporte,nombre) {
+  Swal.fire({
+    title: "Está Seguro de  Desactivar a",
+    html: `<del style="color: red;"><b>${nombre}</b></del>`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#28a745",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, Eliminar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("../ajax/reporte_civil.php?op=borrar", { idreporte: idreporte }, function (e) {
+        Swal.fire("Desactivado!", "Tu registro ha sido desactivado.", "success");
+        tabla.ajax.reload(null, false); 
+      });
+    }
+  });
 }
-
-
+        
 init();
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
