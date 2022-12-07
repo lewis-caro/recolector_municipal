@@ -61,6 +61,8 @@
 <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="../plugins/jquery-validation/additional-methods.min.js"></script>  
 
+<!-- JQuery ZOOM imagen -->
+<script type="text/javascript" src="../plugins/jquery-zoom/jquery.zoom.js"></script>
 
 <!-- InputMask -->
 <script src="../plugins/inputmask/jquery.inputmask.min.js"></script>

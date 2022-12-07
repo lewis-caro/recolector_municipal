@@ -10,16 +10,17 @@ class Reporte_Civil
   }
 
   //Implementamos un método para insertar registros
-  public function insertar($trabajador, $cargo, $login, $clave, $permisos) {
+  public function insertar( $idtipo_residuo, $descripcion,  $referencia,  $img, $fecha) {
 
     // insertamos al usuario
-    $sql = "INSERT INTO usuario ( idtrabajador, cargo, login, password,user_created) VALUES ('$trabajador', '$cargo', '$login', '$clave','" . $_SESSION['idusuario'] . "')";
+    $sql = "INSERT INTO reporte( idusuario, idtipo_residuo, descripcion, referencia, img, fecha) 
+    VALUES ('" . $_SESSION['idusuario'] . "','$idtipo_residuo', '$descripcion', '$referencia', '$img', '$fecha')";
     return ejecutarConsulta($sql);    
 
   }
 
   //Implementamos un método para editar registros
-  public function editar($idusuario, $trabajador,$trabajador_old, $cargo, $login, $clave, $permisos) {   
+  public function editar($idreporte, $idtipo_residuo, $descripcion,  $referencia,  $img, $fecha) {   
 
     $sql = "UPDATE usuario SET 
     idtrabajador='$trab', cargo='$cargo', login='$login', password='$clave', user_updated= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
@@ -89,11 +90,26 @@ class Reporte_Civil
 
   //Implementar un método para listar los registros
   public function tbla_principal() {
-    $sql = "SELECT u.idusuario, u.nombres, u.dni, u.login, u.edad, u.direccion, u.telefono, u.email, u.img_perfil, tp.nombre as tipo_persona, z.nombre as zona, u.estado 
-    FROM usuario as u, tipo_persona as tp, zonas as z 
-    WHERE u.idtipo_persona = tp.idtipo_persona AND u.idzonas = z.idzonas AND u.estado=1 ORDER BY u.nombres ASC;";
+    $sql = "SELECT r.imagen, tp.nombres, z.nombre, r.referencia, tp.nombres as tipo_residuo, z.nombre as zona, r.estado 
+    FROM reporte_morador as r, tipo_residuo as tp, zonas as z
+    WHERE r.idtipo_residuo = tp.idtipo_residuo AND r.idzonas = z.idzonas AND r.estado=1 ORDER BY tp.nombres ASC;";
     return ejecutarConsulta($sql);
   }
+
+  //Implementar un método para listar los registros
+  public function select2ReporteCivil() {
+    $sql = "SELECT idusuario, idtipo_persona, idzonas, nombres, dni, login, password, edad, direccion, telefono, email, img_perfil, estado 
+    FROM usuario as u, tipo_persona as tp 
+    WHERE u.idtipo_persona = tp.idtipo_persona AND tp.idtipo_persona = '4' AND u.estado = '1' ORDER BY tp.nombres ASC;";
+    return ejecutarConsultaArray($sql);
+  }
+
+  //Implementar un método para listar los registros
+  public function select2TipoResiduo() {
+    $sql = "SELECT * FROM `tipo_residuo` WHERE estado = '1' ORDER BY idtipo_residuo ASC;";
+    return ejecutarConsultaArray($sql);
+  }
+  
   
 }
 
