@@ -3,7 +3,7 @@
   ob_start();
   session_start();
 
-  if (!isset($_SESSION["nombre"])){
+  if (!isset($_SESSION["nombres"])){
       header("Location: index.php?file=".basename($_SERVER['PHP_SELF']));
   }else{ ?>
     <!DOCTYPE html>
