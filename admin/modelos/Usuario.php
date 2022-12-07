@@ -10,11 +10,11 @@ class Usuario
   }
   //$idcargo_trabajador,$nombre, $tipo_documento, $num_documento, $direccion, $telefono, $nacimiento, $edad,  $email, $banco, $cta_bancaria,  $cci,  $titular_cuenta, $ruc,$sueldo_mensual,$sueldo_diario, $imagen1
   //Implementamos un método para insertar registros
-  public function insertar($idtipo_persona, $idzona, $dni, $nombres, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos) {
+  public function insertar($idtipo_persona, $idzona, $dni, $nombre_usuario, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos) {
 
     // insertamos al usuario
-    $sql = "INSERT INTO usuario ( dni, nombres, edad, telefono, tipo_persona, cargo, login, password, email, zonas, direccion, user_created) 
-    VALUES ('$idtipo_persona', '$idzona', '$dni', '$nombres', '$edad', '$telefono', '$login', '$clave', '$email', '$direccion', '$img_perfil','" . $_SESSION['idusuario'] . "')";
+    $sql = "INSERT INTO usuario ( idtipo_persona, idzonas, dni, nombres, edad, telefono, tipo_persona, cargo, login, password, email, zonas, direccion, user_created) 
+    VALUES ('$idtipo_persona', '$idzona', '$dni', '$nombre_usuario', '$edad', '$telefono', '$login', '$clave', '$email', '$direccion', '$img_perfil','" . $_SESSION['idusuario'] . "')";
     $data_user = ejecutarConsulta_retornarID($sql); if ($data_user['status'] == false){return $data_user; }
 
     //add registro en nuestra bitacora

@@ -92,6 +92,8 @@
 
   // ::::::::::::::::::::::::::::::::: D A T O S   U S U A R I O S :::::::::::::::::::::::::::::
   $idusuario        = isset($_POST["idusuario"]) ? limpiarCadena($_POST["idusuario"]) : "";
+  $idtipo_persona        = isset($_POST["idtipo_persona"]) ? limpiarCadena($_POST["idtipo_persona"]) : "";
+  $idzona       = isset($_POST["idzonas"]) ? limpiarCadena($_POST["idzonas"]) : "";
   $dni              = isset($_POST["dni"]) ? limpiarCadena($_POST["dni"]) : "";
   $nombre_usuario   = isset($_POST["nombres"]) ? limpiarCadena($_POST["nombres"]) : "";
   $edad             = isset($_POST["edad"]) ? limpiarCadena($_POST["edad"]) : "";
@@ -102,6 +104,7 @@
   $email			      = isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
   $zona             = isset($_POST["zona"])? $_POST["zona"] :"";
   $direccion 		    = isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
+  $img_perfil 		    = isset($_POST["img_perfil"])? limpiarCadena($_POST["img_perfil"]):"";
   //$permiso = isset($_POST['permiso']) ? $_POST['permiso'] : "";
 
 
@@ -126,13 +129,13 @@
 
       if (empty($idusuario)) {
 
-        $rspta = $usuario->insertar($idtipo_persona, $idzona, $dni, $nombres, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos);
+        $rspta = $usuario->insertar($idtipo_persona, $idzona, $dni, $nombre_usuario, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos);
 
         echo json_encode($rspta, true);
 
       } else {
 
-        $rspta = $usuario->editar($idusuario, $trabajador,$trabajador_old, $cargo, $login, $clavehash, $permiso);
+        $rspta = $usuario->editar($idtipo_persona, $idzona, $dni, $nombre_usuario, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos);
 
         echo json_encode($rspta, true);
       }
