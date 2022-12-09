@@ -8,22 +8,14 @@ function init() {
   $("#mAccesos").addClass("active");
   $("#lUsuario").addClass("active");
 
+  barras_reporte();
+
   tbla_principal();
   tbla_principal2();
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
-  //$("#guardar_registro_reporte").on("click", function (e) {  $("#submit-form-reporte").submit(); });
-
-  //lista_select2("../ajax/tareas_trabajador.php?op=select2TipoResiduo", '#idtipo_residuo', null);
-
-  // restringimos la fecha_hoy para no elegir mañana
-  no_select_tomorrow('#nacimiento_trab')
-
-  $("#fecha_hoy").val(moment().format('YYYY-MM-DD')).attr('readonly', 'readonly');
-  
-  // Formato para telefono
-  $("[data-mask]").inputmask();   
+   
 }
 
 // abrimos el navegador de archivos
@@ -199,43 +191,81 @@ function tbla_principal2() {
   });
 }*/
 
-/*function cargar(idreporte) {
+//Barra de reportes de todos los usuarios
+function barras_reporte() {
+ 
+  $.post("../ajax/tareas_trabajador.php?op=barras_reporte", function (e) {
 
-  $('#modal-agregar-reporte').modal('show');
-  
-  $(".tooltip").removeClass("show").addClass("hidde");
-  $(".trabajador-name").html(`<i class="fas fa-spinner fa-pulse fa-2x"></i>`);  
+    e = JSON.parse(e);  console.log(e); 
 
-  
-  limpiar_form_usuario();  
+    var person_html = "";
 
+    e.data.user_cant.forEach((val, key) => {
 
-  $.post("../ajax/reporte_civil.php?op=mostrar", { idreporte: idreporte }, function (data) {
+      var porcentaje = (val.cantidad_reporte * 100) / e.data.total_reporte ;
 
-    data = JSON.parse(data);  console.log(data); 
-
-    $("#idreporte").val(data.data.idreporte);
-    $("#idtipo_residuo").val(data.data.idtipo_residuo);
-    $("#descripcion").val(data.data.descripcion);
-    $("#referencia").val(data.data.referencia);
-    $("#doc1").val(data.data.doc1);
-    $("#fecha_hoy").val(data.data.fecha);
-
-    $("#cargando-1-fomulario").show();
-    $("#cargando-2-fomulario").hide();    
-
-  }).fail( function(e) { console.log(e); ver_errores(e); } );
-
-  //Permiso
-  $.post(`../ajax/usuario.php?op=permisos&id=${idreporte}`, function (r) {
-
-    r = JSON.parse(r); console.log(r);
-
-    if (r.status) { $("#permisos").html(r.data); } else { ver_errores(e); }
-    //$("#permiso_4").rules('add', { required: true, messages: {  required: "Campo requerido" } });
+      person_html =  person_html.concat( `
+        <div class="widget_summary">
+          <div class="w_left w_25">
+            <span>${val.nombres}</span>
+          </div>
+          <div class="w_center w_55">
+            <div class="progress">
+              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100" style="width: ${porcentaje}%;">
+                <span class="sr-only">${porcentaje}% Complete</span>
+              </div>
+            </div>
+          </div>
+          <div class="w_right w_20">
+            <span>${val.cantidad_reporte}<small>r</small></span>
+          </div>
+          <div class="clearfix"></div>
+        </div>` );
+    });
     
-  }).fail( function(e) { console.log(e); ver_errores(e); } );
-}*/
+
+    $('#chart_barras').html(`<p><i><b>Civil con mas reportes</b></i></p>  ${person_html} `);
+
+  }).fail( function(e) { console.log(e); ver_errores(e); } );  
+}
+
+//Funcion para ver las tareas en grafico Jheys
+function tarea_ph() {
+ 
+  $.post("../ajax/tareas_trabajador.php?op=tarea_ph", function (e) {
+
+    e = JSON.parse(e);  console.log(e); 
+
+    var person_html = "";
+
+    e.data.user_cant.forEach((val, key) => {
+
+
+      person_html =  person_html.concat( 
+          `<div class="widget_summary">
+            <div class="w_left w_25">
+              <span>${val.nombres}</span>
+            </div>
+            <div class="w_center w_55">
+              <div class="progress">
+                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100" style="width: ${porcentaje}%;">
+                  <span class="sr-only">${porcentaje}% Complete</span>
+                </div>
+              </div>
+            </div>
+            <div class="w_right w_20">
+              <span>${val.cantidad_reporte}<small>r</small></span>
+            </div>
+            <div class="clearfix"></div>
+          </div>` 
+        );
+    });
+    
+
+    $('#chart_barras').html(`<p><i><b>Civil con mas reportes</b></i></p>  ${person_html} `);
+
+  }).fail( function(e) { console.log(e); ver_errores(e); } );  
+}
 
 //Función para desactivar registros
 // function borrar(idreporte, nombre) {

@@ -1,18 +1,4 @@
-<?php
 
-    /*include 'config/conexion.php';
-
-    //Validar que exista un boton registrar
-   if(isset($_POST['registrar'])) {
-
-        $mensaje = "";
-        $nombre = $conect->real_escape_string($_POST['nombres']); $apellidos = $conect->real_escape_string($_POST['apellidos']); $correo = $conect->real_escape_string($_POST['correo']); $celular =
-$conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_string($_POST['password']); //Consulta Para insertar los datos $insertar = "INSERT INTO registro (nombres, apellidos, correo, celular, password) VALUES
-('$nombre', '$apellidos', '$correo', '$celular', '$passw')"; $guardar = $conect->query($insertar); if($guardar > 0){ $mensaje.="
-<h3 class="text-success">Tu regsitro ah sido exitoso</h3>
-"; } else{ $mensaje.="
-<h3 class="text-danger">Tu regsitro no se ha sido exitoso</h3>
-"; } }*/ ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -333,7 +319,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
           <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
             <div class="service-item rounded d-flex h-100">
               <div class="service-img rounded">
-                <img class="img-fluid" src="img/vsl.jpg" alt="" />
+                <img class="img-fluid" src="img/seg.jpg" alt="" />
               </div>
               <div class="service-text rounded p-5">
                 <div class="btn-square rounded-circle mx-auto mb-3">
@@ -423,17 +409,50 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
 
               <form name="formulario-registro-civil" id="formulario-registro-civil" method="post">
                 <div class="row g-3">
-                  <div class="col-sm-6">
-                    <div class="form-floating form-group">
-                      <input type="text" class="form-control bg-light border-0" id="nombres" name="nombres" placeholder="Nombres" required />
-                      <label for="nombres">Nombres</label>
+                   <!-- Tipo de documento -->
+                   <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label for="tipo_documento_civ">Tipo de documento</label>
+                      <select name="tipo_documento_civ" id="tipo_documento_civ" class="form-control" placeholder="Tipo de documento">
+                        <option selected value="DNI">DNI</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- N° de documento -->
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label for="num_documento_civ">N° de documento</label>
+                      <div class="input-group">
+                        <input type="number" name="num_documento_civ" class="form-control" id="num_documento_civ" placeholder="N° de documento" />
+                        <div class="input-group-append" data-toggle="tooltip" data-original-title="Buscar Reniec/SUNAT" onclick="buscar_sunat_reniec_v2('_civ');">
+                          <span class="input-group-text" style="cursor: pointer;">
+                            <i class="fas fa-search text-primary" id="search_civ"></i>
+                            <i class="fa fa-spinner fa-pulse fa-fw fa-lg text-primary" id="charge_civ" style="display: none;"></i>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-sm-6">
                     <div class="form-floating form-group">
-                      <input type="text" class="form-control bg-light border-0" id="apellidos" name="apellidos" placeholder="Apellidos" required />
-                      <label for="apellidos">Apellidos</label>
+                      <input type="text" class="form-control bg-light border-0" id="nombre_civ" name="nombre_civ" placeholder="Nombre" required />
+                      <label for="nombre">Nombres</label>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-floating form-group">
+                      <input type="text" class="form-control bg-light border-0" id="apellidos_civ" name="apellidos_civ" placeholder="Apellidos" required />
+                      <label for="apellidos_civ">Apellidos</label>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-floating form-group">
+                      <select name="idzona" id="idzona" class="form-control bg-light border-0"></select>
+                      <label for="idzona">Zona</label>
                     </div>
                   </div>
 
@@ -458,7 +477,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
                     </div>
                   </div>
 
-                  <div class="col-sm-6">
+                  <div class="col-sm-12">
                     <div class="form-floating form-group">
                       <input type="password" class="form-control bg-light border-0" id="password" name="password" placeholder="Contraseña" required />
                       <label for="password">Contraseña</label>
@@ -502,7 +521,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
         <div class="row g-4 portfolio-container">
           <div class="col-lg-4 col-md-6 portfolio-item uno wow fadeInUp" data-wow-delay="0.1s">
             <div class="portfolio-inner rounded">
-              <img class="img-fluid" src="img/bd.jpg" alt="" height="" />
+              <img class="img-fluid" src="img/lis1.jpeg" alt="" height="" />
               <div class="portfolio-text">
                 <h4 class="text-white mb-4">Desechos en general</h4>
                 <i class="text-white">Principalmente material biodegradable</i><br />
@@ -515,7 +534,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item dos wow fadeInUp" data-wow-delay="0.3s">
             <div class="portfolio-inner rounded">
-              <img class="img-fluid" src="img/or.webp" />
+              <img class="img-fluid" src="img/lis4.jpeg" />
               <div class="portfolio-text">
                 <h4 class="text-white mb-4">Orgánico</h4>
                 <i class="text-white">Huesos, Restos de alimentos, etc</i><br />
@@ -528,7 +547,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item tres wow fadeInUp" data-wow-delay="0.5s">
             <div class="portfolio-inner rounded">
-              <img class="img-fluid" src="img/vb.png" alt="" />
+              <img class="img-fluid" src="img/lis3.jpeg" alt="" />
               <div class="portfolio-text">
                 <h4 class="text-white mb-4">Vidrio</h4>
                 <i class="text-white text-center">Botellas, Vidiros rotos, Importante no utilizar cerámica o cristales.</i><br />
@@ -541,7 +560,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item cuatro wow fadeInUp" data-wow-delay="0.1s">
             <div class="portfolio-inner rounded">
-              <img class="img-fluid" src="img/lb.png" alt="" />
+              <img class="img-fluid" src="img/lis2.jpeg" alt="" />
               <div class="portfolio-text">
                 <h4 class="text-white mb-4">Plásticos y envases metálicos</h4>
                 <i class="text-white text-center">Latas o envases de alimentos y bebidas, bolsas, etc.</i><br />
@@ -567,7 +586,7 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item seis wow fadeInUp" data-wow-delay="0.5s">
             <div class="portfolio-inner rounded">
-              <img class="img-fluid" src="img/bp.png" alt="" />
+              <img class="img-fluid" src="img/ba.jpg" alt="" />
               <div class="portfolio-text">
                 <h4 class="text-white mb-4">Desechos Peligrosos</h4>
                 <i class="text-white text-center">Baterias, pilas, insecticidas, aceites, aerosoles, o productos tegnológicos además de residuos hospitalarios.</i><br />
@@ -808,6 +827,16 @@ $conect->real_escape_string($_POST['celular']); $passw = $conect->real_escape_st
     <!-- jquery-validation -->
     <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>  
+
+    <script type="text/javascript" src="admin/dist/js/funcion_crud.js"></script>
+    <script type="text/javascript" src="admin/dist/js/funcion_general.js"></script>
+
+    <!-- InputMask -->
+    <script src="admin/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- Toastr -->
+    <script src="admin/plugins/toastr/toastr.min.js"></script>
+    <!-- sweetalert2 -->
+    <script src="admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

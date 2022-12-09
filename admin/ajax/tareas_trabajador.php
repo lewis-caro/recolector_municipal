@@ -36,6 +36,15 @@
           echo json_encode($rspta, true);
         break;
 
+        case 'barras_reporte':
+          $rspta = $tareas_trabajador->barras_reporte();
+          echo json_encode($rspta, true);
+        break;
+
+        case 'tarea_ph':
+          $rspta = $tareas_trabajador->tarea_ph();
+          echo json_encode($rspta, true);
+        break;
 
         case 'tbla_principal':
           $estado = '1';

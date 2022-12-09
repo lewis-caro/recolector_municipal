@@ -243,13 +243,13 @@ $(function () {
     rules: {
       
       idtipo_residuo:  { required: true },
-      descripcion: {  minlength: 3, maxlength: 45 },
+      descripcion: {  minlength: 3, maxlength: 300 },
       referencia:  { required: true, minlength: 3, maxlength: 300 },
       fecha_hoy:  { required: true},
     },
     messages: {
       idtipo_residuo:    { required: "Este campo es requerido." },
-      descripcion: { minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 45 caracteres.", },
+      descripcion: { minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 300 caracteres.", },
       referencia:    { required: "Este campo es requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 300 caracteres.", },
       fecha_hoy: { required: "Campo requerido." },
     },

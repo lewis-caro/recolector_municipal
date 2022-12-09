@@ -9,6 +9,8 @@ function init() {
 
   $("#lUsuario").addClass("active");
 
+  lista_select2("ajax/registrar.php?op=select2Zona", '#idzona', null);
+
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
   //$("#guardar_registro_trabajador").on("click", function (e) {  $("#submit-form-trabajador").submit(); });
@@ -20,8 +22,9 @@ function init() {
 //Función limpiar
 function limpiar_form_usuario() { 
 
-  $("#nombres").val("");
-  $("#apellidos").val("");
+  $("#num_documento_civ").val("");
+  $("#nombre_civ").val("");
+  $("#apellidos_civ").val("");
   $("#correo").val("");
   $("#celular").val("");
   $("#usuario").val("");
@@ -34,7 +37,7 @@ function limpiar_form_usuario() {
 }
 
 //Función para guardar o editar
-function guardar_y_editar_usuario(e) {
+function guardar_y_editar_civil(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#formulario-registro-civil")[0]);
 
@@ -49,6 +52,8 @@ function guardar_y_editar_usuario(e) {
         e = JSON.parse(e); console.log(e);
         if (e.status == true) {
          console.log('registradooooo');
+         limpiar_form_usuario();
+         sw_success( "Éxito!!", "Acción ejecutada con éxito.", 7000);
         } else {
           ver_errores(d);
         }
@@ -87,73 +92,6 @@ function guardar_y_editar_usuario(e) {
   });
 }
 
-function mostrar(idusuario) {
-  $(".tooltip").removeClass("show").addClass("hidde");
-  $(".trabajador-name").html(`<i class="fas fa-spinner fa-pulse fa-2x"></i>`);  
-
-  limpiar_form_usuario();  
-
-  $(".modal-title").html("Editar usuario");
-  $("#trabajador").val("").trigger("change"); 
-  $("#trabajador_c").html(`Trabajador <b class="text-danger">(Selecione nuevo) </b>`);
-  $("#cargando-1-fomulario").hide();
-  $("#cargando-2-fomulario").show();
-
-  // Removemos la validacion
-  $("#trabajador").rules('remove', 'required');
-  $("#password").rules('remove', 'required');
-
-  show_hide_form(2);
-
-  $("#permisos").html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
-
-  $.post("../ajax/usuario.php?op=mostrar", { idusuario: idusuario }, function (data, status) {
-
-    data = JSON.parse(data);  console.log(data); 
-
-    $(".trabajador-name").html(` <i class="fas fa-users-cog text-primary"></i> <b class="texto-parpadeante font-size-20px">${data.data.nombres}</b> `);    
-
-    $("#trabajador_old").val(data.data.idtrabajador);
-    $("#cargo").val(data.data.cargo).trigger("change");
-    $("#login").val(data.data.login);
-    $("#password-old").val(data.data.password);
-    $("#idusuario").val(data.data.idusuario);
-
-    $("#cargando-1-fomulario").show();
-    $("#cargando-2-fomulario").hide();    
-
-  }).fail( function(e) { console.log(e); ver_errores(e); } );
-
-  //Permiso
-  $.post(`../ajax/usuario.php?op=permisos&id=${idusuario}`, function (r) {
-
-    r = JSON.parse(r); console.log(r);
-
-    if (r.status) { $("#permisos").html(r.data); } else { ver_errores(e); }
-    //$("#permiso_4").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-    
-  }).fail( function(e) { console.log(e); ver_errores(e); } );
-}
-
-//Función para desactivar registros
-function eliminar(idusuario, nombre) {
-  
-  crud_eliminar_papelera(
-    "../ajax/usuario.php?op=desactivar",
-    "../ajax/usuario.php?op=eliminar", 
-    idusuario, 
-    "!Elija una opción¡", 
-    `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
-    function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
-    function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
-    function(){ tabla.ajax.reload(null, false) },
-    false, 
-    false, 
-    false,
-    false
-  );
-}
-
 
 init();
 
@@ -164,16 +102,16 @@ $(function () {
   $("#formulario-registro-civil").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
-      nombres:    { required: true, minlength: 3, maxlength: 20 },
-      apellidos:  { required: true, minlength: 3, maxlength: 20 },
+      nombre_civ:    { required: true, minlength: 3, maxlength: 20 },
+      apellidos_civ:  { required: true, minlength: 3, maxlength: 20 },
       correo:     { required: true, minlength: 3, maxlength: 20 },
       celular:    { required: true, minlength: 3, maxlength: 20 },
       usuario:      { required: true, minlength: 3, maxlength: 20 },
       password:   { required: true, minlength: 4, maxlength: 20 },
     },
     messages: {
-      nombres:    { required: "Este campo es requerido." },
-      apellidos:  { required: "Este campo es requerido." },
+      nombre_civ:    { required: "Este campo es requerido." },
+      apellidos_civ:  { required: "Este campo es requerido." },
       correo:     { required: "Este campo es requerido." },
       celular:    { required: "Este campo es requerido." },
       usuario:      { required: "Este campo es requerido.", minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 20 caracteres.", },
@@ -196,7 +134,7 @@ $(function () {
     },
 
     submitHandler: function (e) {
-      guardar_y_editar_usuario(e);
+      guardar_y_editar_civil(e);
     },
   });
   

@@ -50,46 +50,62 @@ class Tareas_trabajador
   }
 
    //Implementar un método para mostrar los datos de un registro a modificar
-   public function mostrar($idreporte) {
+  public function mostrar($idreporte) {
     $sql = "SELECT * FROM `reporte` WHERE idreporte='$idreporte'";
 
     return ejecutarConsultaSimpleFila($sql);
   }
 
-  
-  //Implementamos un método para desactivar categorías
-  /*public function desactivar($idusuario) {
-    $sql = "UPDATE usuario SET estado='0', user_trash= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
+  public function barras_reporte() {
+    $sql_1 = "SELECT u.nombres, COUNT(u.idusuario) as cantidad_reporte
+    FROM usuario as u, reporte as r, tipo_residuo as tr
+    WHERE u.idusuario = r.idusuario AND r.idtipo_residuo = tr.idtipo_residuo AND u.idtipo_persona = 4 
+    GROUP BY u.idusuario 
+    ORDER BY COUNT(u.idusuario) DESC;";
+    $cant_1 =  ejecutarConsultaArray($sql_1);
 
-    $desactivar = ejecutarConsulta($sql);
-    
-    if ( $desactivar['status'] == false) {return $desactivar; }    
+    $sql_2 = "SELECT COUNT(u.idusuario) as total_reporte 
+    FROM usuario as u, reporte as r, tipo_residuo as tr 
+    WHERE u.idusuario = r.idusuario AND r.idtipo_residuo = tr.idtipo_residuo AND u.idtipo_persona = 4 
+    ORDER BY COUNT(u.idusuario) DESC;";
+    $cant_2 =  ejecutarConsultaSimpleFila($sql_2);
 
-    //add registro en nuestra bitacora
-    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro desactivado','" . $_SESSION['idusuario'] . "')";
-    $bitacorade = ejecutarConsulta($sqlde);
+    return $retorno = [
+      'status' => true,
+      'message' => 'todoo ok os gomero',
+      'data'=> [
+        'user_cant' => $cant_1['data'],
+        'total_reporte' => empty( $cant_2['data'])? 0 : (empty( $cant_2['data']['total_reporte']) ? 0 : floatval($cant_2['data']['total_reporte'])),
+      ]
+      
+    ];
+  }
 
-    if ( $bitacorade['status'] == false) {return $bitacorade; }   
+  public function tarea_ph() {
+    $sql_1 = "SELECT u.nombres, COUNT(u.idusuario) as cantidad_reporte
+    FROM usuario as u, reporte as r, tipo_residuo as tr
+    WHERE u.idusuario = r.idusuario AND r.idtipo_residuo = tr.idtipo_residuo AND u.idtipo_persona = 4 
+    GROUP BY u.idusuario 
+    ORDER BY COUNT(u.idusuario) DESC;";
+    $cant_1 =  ejecutarConsultaArray($sql_1);
 
-    return $desactivar;
-  }*/
+    $sql_2 = "SELECT COUNT(u.idusuario) as total_reporte 
+    FROM usuario as u, reporte as r, tipo_residuo as tr 
+    WHERE u.idusuario = r.idusuario AND r.idtipo_residuo = tr.idtipo_residuo AND u.idtipo_persona = 4 
+    ORDER BY COUNT(u.idusuario) DESC;";
+    $cant_2 =  ejecutarConsultaSimpleFila($sql_2);
 
-  //Implementamos un método para activar :: !!sin usar ::
-  /*public function activar($idusuario) {
-    $sql = "UPDATE usuario SET estado='1', user_updated= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
+    return $retorno = [
+      'status' => true,
+      'message' => 'todoo ok os gomero',
+      'data'=> [
+        'user_cant' => $cant_1['data'],
+        'total_reporte' => empty( $cant_2['data'])? 0 : (empty( $cant_2['data']['total_reporte']) ? 0 : floatval($cant_2['data']['total_reporte'])),
+      ]
+      
+    ];
+  }
 
-    $activar= ejecutarConsulta($sql);
-        
-    if ( $activar['status'] == false) {return $activar; }    
-
-    //add registro en nuestra bitacora
-    $sqlde = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','$idusuario','Registro activado','" . $_SESSION['idusuario'] . "')";
-    $bitacorade = ejecutarConsulta($sqlde);
-
-    if ( $bitacorade['status'] == false) {return $bitacorade; }   
-
-    return $activar;
-  }*/
   
   
 }

@@ -10,14 +10,19 @@ class Registrar_civil
   }
 
   //Implementamos un método para insertar registros
-  public function insertar($nombres, $apellidos , $correo, $celular, $usuario ,$password ) {
-    $nombres = $nombres.' '.$apellidos;
+  public function insertar($idzona, $nom, $ape , $dni , $correo, $celular, $usuario ,$password ) {
+    $nombres = $nom.' '.$ape;
     //var_dump($nombres);die();
-    $sql = "INSERT INTO usuario(idtipo_persona, idzonas, nombres, dni, login, password, email) 
-    VALUES ('3','1','$nombres','0000','$usuario','$password','$correo')";
+    $sql = "INSERT INTO usuario(idtipo_persona, idzonas, nombres, dni, login, password, telefono, email) 
+    VALUES ('4','$idzona', '$nombres', '$dni', '$usuario', '$password', '$celular', '$correo')";
     return  ejecutarConsulta($sql);
   }
 
+  public function select2Zona() {
+   
+    $sql = "SELECT * FROM `zonas` WHERE estado ='1';";
+    return  ejecutarConsultaArray($sql);
+  }
 
 
 }

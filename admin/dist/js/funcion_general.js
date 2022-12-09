@@ -1101,7 +1101,8 @@ function buscar_sunat_reniec(input='') {
   
           $(`#charge${input}`).hide();
 
-          $(`#nombre${input}`).val(''); $(`#titular_cuenta${input}`).val('');
+          $(`#nombre${input}`).val(''); $(`#apellidos${input}`).val(''); $(`#titular_cuenta${input}`).val('');
+          
   
           toastr.error("Verifique su conexion a internet o el sistema de BUSQUEDA esta en mantenimiento.");
           
@@ -1120,7 +1121,180 @@ function buscar_sunat_reniec(input='') {
 
             $(`#charge${input}`).hide();
 
-            $(`#nombre${input}`).val(data.nombres + " " + data.apellidoPaterno + " " + data.apellidoMaterno);
+            $(`#nombre${input}`).val(data.nombres);
+            $(`#apellidos${input}`).val(data.apellidoPaterno + " " + data.apellidoMaterno);
+            $(`#titular_cuenta${input}`).val(data.nombres + " " + data.apellidoPaterno + " " + data.apellidoMaterno);
+
+            toastr.success("Persona encontrada!!!!");
+          }
+        }
+        
+      });
+    } else {
+
+      $(`#num_documento${input}`).addClass("is-invalid");
+
+      $(`#search${input}`).show();
+
+      $(`#charge${input}`).hide();
+
+      $(`#nombre${input}`).val(''); $(`#titular_cuenta${input}`).val('');
+
+      toastr.info("Asegurese de que el DNI tenga 8 dígitos!!!");
+    }
+  } else {
+    if (tipo_doc == "RUC") {
+
+      if (dni_ruc.length == "11") {
+        $.post("../ajax/ajax_general.php?op=sunat", { ruc: dni_ruc }, function (data, status) {
+
+          data = JSON.parse(data);    console.log(data);
+
+          if (data == null) {
+            $(`#search${input}`).show();
+    
+            $(`#charge${input}`).hide();
+    
+            toastr.error("Verifique su conexion a internet o el sistema de BUSQUEDA esta en mantenimiento.");
+            
+          } else {
+
+            if (data.success == false) {
+
+              $(`#search${input}`).show();
+
+              $(`#charge${input}`).hide();
+
+              $(`#nombre${input}`).val(''); $(`#titular_cuenta${input}`).val('');  $(`#empresa${input}`).val('');  $(`#razon_social${input}`).val(''); $(`#direccion${input}`).val('');
+
+              toastr.error("Datos no encontrados en la SUNAT!!!");
+              
+            } else {
+
+              if (data.estado == "ACTIVO") {
+
+                $(`#search${input}`).show();
+
+                $(`#charge${input}`).hide();
+
+                data.razonSocial == null ? $(`#nombre${input}`).val(data.nombreComercial) : $(`#nombre${input}`).val(data.razonSocial);
+                data.razonSocial == null ? $(`#empresa${input}`).val(data.nombreComercial) : $(`#empresa${input}`).val(data.razonSocial);
+                data.razonSocial == null ? $(`#razon_social${input}`).val(data.nombreComercial) : $(`#razon_social${input}`).val(data.razonSocial);
+
+                data.razonSocial == null ? $(`#titular_cuenta${input}`).val(data.nombreComercial) : $(`#titular_cuenta${input}`).val(data.razonSocial);
+
+                var departamento = (data.departamento == null ? "" : data.departamento); 
+                var provincia = (data.provincia == null ? "" : data.provincia);
+                var distrito = (data.distrito == null ? "" : data.distrito);                
+
+                data.direccion == null ? $(`#direccion${input}`).val(`${departamento} - ${provincia} - ${distrito}`) : $(`#direccion${input}`).val(data.direccion);
+                data.direccion == null ? $(`#ubicacion${input}`).val(`${departamento} - ${provincia} - ${distrito}`) : $(`#ubicacion${input}`).val(data.direccion);
+
+                toastr.success("Datos encontrados!!");
+
+              } else {
+
+                toastr.info("Se recomienda NO generar FACTURAS ó BOLETAS!!!");
+
+                $(`#search${input}`).show();
+
+                $(`#charge${input}`).hide();
+
+                data.razonSocial == null ? $(`#nombre${input}`).val(data.nombreComercial) : $(`#nombre${input}`).val(data.razonSocial);
+                data.razonSocial == null ? $(`#empresa${input}`).val(data.empresaComercial) : $(`#empresa${input}`).val(data.razonSocial);
+
+                data.razonSocial == null ? $(`#titular_cuenta${input}`).val(data.nombreComercial) : $(`#titular_cuenta${input}`).val(data.razonSocial);
+                
+                var departamento = (data.departamento == null ? "" : data.departamento); 
+                var provincia = (data.provincia == null ? "" : data.provincia);
+                var distrito = (data.distrito == null ? "" : data.distrito);
+
+                data.direccion == null ? $(`#direccion${input}`).val(`${data.departamento} - ${data.provincia} - ${data.distrito}`) : $(`#direccion${input}`).val(data.direccion);
+                data.direccion == null ? $(`#ubicacion${input}`).val(`${departamento} - ${provincia} - ${distrito}`) : $(`#ubicacion${input}`).val(data.direccion);
+
+              }
+            }
+          }          
+        });
+      } else {
+        $(`#num_documento${input}`).addClass("is-invalid");
+
+        $(`#search${input}`).show();
+
+        $(`#charge${input}`).hide();
+
+        $(`#nombre${input}`).val(''); $(`#titular_cuenta${input}`).val('');  $(`#empresa${input}`).val('');  $(`#razon_social${input}`).val(''); $(`#direccion${input}`).val('');
+
+        toastr.info("Asegurese de que el RUC tenga 11 dígitos!!!");
+      }
+    } else {
+      if (tipo_doc == "CEDULA" || tipo_doc == "OTRO") {
+
+        $(`#search${input}`).show();
+
+        $(`#charge${input}`).hide();
+
+        toastr.info("No necesita hacer consulta");
+
+      } else {
+
+        $(`#tipo_documento${input}`).addClass("is-invalid");
+
+        $(`#search${input}`).show();
+
+        $(`#charge${input}`).hide();
+
+        toastr.error("Selecione un tipo de documento");
+      }
+    }
+  }
+}
+
+function buscar_sunat_reniec_v2(input='') {
+  //console.log(input);
+
+  $(`#search${input}`).hide(); $(`#charge${input}`).show();
+
+  let tipo_doc = $(`#tipo_documento${input}`).val();
+
+  let dni_ruc = $(`#num_documento${input}`).val(); 
+   
+  if (tipo_doc == "DNI") {
+
+    if (dni_ruc.length == "8") {
+
+      $.post("admin/ajax/ajax_general.php?op=reniec", { dni: dni_ruc }, function (data, status) {
+
+        data = JSON.parse(data);  console.log(data);
+
+        if (data == null) {
+
+          $(`#search${input}`).show();
+  
+          $(`#charge${input}`).hide();
+
+          $(`#nombre${input}`).val(''); $(`#apellidos${input}`).val(''); $(`#titular_cuenta${input}`).val('');
+          
+  
+          toastr.error("Verifique su conexion a internet o el sistema de BUSQUEDA esta en mantenimiento.");
+          
+        } else {
+          if (data.success == false) {
+
+            $(`#search${input}`).show();
+
+            $(`#charge${input}`).hide();
+
+            toastr.error("Es probable que el sistema de busqueda esta en mantenimiento o los datos no existe en la RENIEC!!!");
+
+          } else {
+
+            $(`#search${input}`).show();
+
+            $(`#charge${input}`).hide();
+
+            $(`#nombre${input}`).val(data.nombres);
+            $(`#apellidos${input}`).val(data.apellidoPaterno + " " + data.apellidoMaterno);
             $(`#titular_cuenta${input}`).val(data.nombres + " " + data.apellidoPaterno + " " + data.apellidoMaterno);
 
             toastr.success("Persona encontrada!!!!");
