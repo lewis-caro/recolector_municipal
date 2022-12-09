@@ -177,7 +177,7 @@
                                     <div class="form-group">
                                       <label for="idtipo_persona">Rol <sup class="text-danger">(unico*)</sup></label>
                                       <select name="idtipo_persona" id="idtipo_persona" class="form-control select2" style="width: 100%;">
-                                      <option value="1">Adminstrador</option> 
+                                      <option value="1">Ninguno</option> 
                                         <option value="2">Adminstrador</option>
                                         <option value="3">Trabajador</option>
                                         <option value="4">Civil</option>                                        
