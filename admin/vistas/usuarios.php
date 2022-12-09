@@ -96,8 +96,7 @@
                                       <thead>
                                         <tr>
                                           <th class="center">#</th>
-                                          <th class="detail-col">Detalle</th>
-                                          <th>Nombres</th>
+                                          <th>Nombres y DNI</th>
                                           <th>Telefono</th>
                                           <th>Usuario</th>
                                           <th>Contraseña</th>

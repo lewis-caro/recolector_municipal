@@ -174,8 +174,10 @@ function guardar_y_editar_usuario(e) {
         e = JSON.parse(e); console.log(e);
         if (e.status == true) {
           tabla.ajax.reload(null, false);
-          show_hide_form(1); limpiar_form_usuario(); sw_success('Correcto!', "Usuario guardado correctamente." );
-          $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+          show_hide_form(1); limpiar_form_usuario(); 
+          sw_success('Correcto!', "Usuario guardado correctamente." );
+          $("#guardar_registro_usuario").html('Guardar Cambios').removeClass('disabled');
+          $('#modal-agregar-usuario').modal('hide');
         } else {
           ver_errores(d);
         }
@@ -263,7 +265,7 @@ function mostrar(idusuario) {
 }
 
 //Función para desactivar registros
-function eliminar(idusuario, nombre) {
+/*function eliminar1(idusuario, nombre) {
   
   crud_eliminar_papelera(
     "../ajax/usuario.php?op=desactivar",
@@ -279,6 +281,25 @@ function eliminar(idusuario, nombre) {
     false,
     false
   );
+}*/
+
+function eliminar(idusuario,nombre) {
+  Swal.fire({
+    title: "Está Seguro de  Eliminar a",
+    html: `<del style="color: red;"></del>`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#28a745",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, Eliminar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("../ajax/usuario.php?op=eliminar", { idusuario: idusuario }, function (e) {
+        Swal.fire("Desactivado!", "Tu registro ha sido desactivado.", "success");
+        tabla.ajax.reload(null, false); 
+      });
+    }
+  });
 }
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   T R A B A J A D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::

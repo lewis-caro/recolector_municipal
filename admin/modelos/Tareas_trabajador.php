@@ -80,13 +80,9 @@ class Tareas_trabajador
       
     ];
   }
-
+//Modificado jheys
   public function tarea_ph() {
-    $sql_1 = "SELECT u.nombres, COUNT(u.idusuario) as cantidad_reporte
-    FROM usuario as u, reporte as r, tipo_residuo as tr
-    WHERE u.idusuario = r.idusuario AND r.idtipo_residuo = tr.idtipo_residuo AND u.idtipo_persona = 4 
-    GROUP BY u.idusuario 
-    ORDER BY COUNT(u.idusuario) DESC;";
+    $sql_1 = "SELECT * FROM `reporte` WHERE estado=1;";
     $cant_1 =  ejecutarConsultaArray($sql_1);
 
     $sql_2 = "SELECT COUNT(u.idusuario) as total_reporte 
