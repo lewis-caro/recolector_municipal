@@ -137,7 +137,8 @@
 
       } else {
 
-        $rspta = $usuario->editar($idtipo_persona, $idzona, $dni, $nombre_usuario, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos);
+        //$rspta = $usuario->editar($idtipo_persona, $idzona, $dni, $nombre_usuario, $edad, $telefono, $login, $clave, $email, $direccion, $img_perfil, $permisos);
+        $rspta = $usuario->editar($idusuario ,$idtipo_persona, $idzona, $dni, $nombre_usuario, $edad, $telefono, $login, $clave, $email, $direccion);
 
         echo json_encode($rspta, true);
       }
@@ -161,8 +162,7 @@
 
     case 'eliminar':
 
-      $rspta = $usuario->eliminar($_GET["id_tabla"]);
-
+      $rspta = $usuario->eliminar($idusuario);
       echo json_encode($rspta, true);
 
     break;
@@ -189,22 +189,25 @@
         foreach ($rspta['data'] as $key => $value) {
           $data[] = [
             "0"=>$cont++,
-            "1" => $value['telefono'],
-            "2" => '<div class="user-block">'. 
+            "1" => '<div class="user-block">'. 
               '<span class="username"><p class="text-primary m-b-02rem" >' . $value['nombres'] . '</p></span>'. 
               '<span class="description"> DNI: ' . $value['dni'] . ' </span>'.
             '</div>',
-            "3" => $value['telefono'],
-            "4" => $value['login'],
-            "5" => $value['password'],
-            "6" => $value['tipo_persona'],
-            "7" => $value['email'],
-            "8" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
-            "9"  => $value['estado'] ? 
+            "2" => $value['telefono'],
+            "3" => $value['login'],
+            "4" => $value['password'],
+            "5" => $value['tipo_persona'],
+            "6" => $value['email'],
+            "7" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
+            "8"  =>  
+            '<button class="btn btn-primary btn-sm" onclick="cargar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
+            '<button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] . ',\''.$value['nombres'].'\')" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-trash"></i></button>',
+            
+            /*"9"  => $value['estado'] ? 
             '<button class="btn btn-primary btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' .
-            ($value['tipo_persona']=='Administrador' ? ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fa fa-trash"></i> </button>' : ' <button class="btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fa fa-trash"></i> </button>' ) :
-            '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
-            ' <button class="btn btn-primary  btn-sm" onclick="activar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fa fa-trash"></i></button>',
+            ($value['tipo_persona']=='Administrador' ? 
+            ' <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-original-title="El administrador no se puede eliminar."><i class="fa fa-trash"></i></button>' : ' <button class="btn-danger  btn-sm" onclick="eliminar (' . $value['idusuario'] .', \''.encodeCadenaHtml($value['nombres']).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fa fa-trash"></i> </button>' ) :
+            '<button class="btn btn-warning  btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' ,*/
           ];
           
         }

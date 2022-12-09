@@ -20,7 +20,7 @@ class Usuario
   }
 
   //Implementamos un método para editar registros
-  public function editar($idusuario, $trabajador,$trabajador_old, $cargo, $login, $clave, $permisos) {
+  /*public function editar($idusuario, $trabajador,$trabajador_old, $cargo, $login, $clave, $permisos) {
     $trab = "";
     if (empty($trabajador)) {$trab = $trabajador_old;}else{$trab = $trabajador; }
     // var_dump($trab);die();
@@ -64,6 +64,10 @@ class Usuario
     
     }
 
+  }*/
+  public function editar($idusuario, $idtipo_persona, $idzona, $nombre, $dni, $login, $pass, $edad, $direccion, $telefono, $email) {   
+
+
   }
 
   //Implementamos un método para desactivar categorías
@@ -90,7 +94,9 @@ class Usuario
 
   //Implementamos un método para eliminar usuario
   public function eliminar($idusuario) {
-    $sql = "UPDATE usuario SET estado_delete='0',user_delete= '" . $_SESSION['idusuario'] . "' WHERE idusuario='$idusuario'";
+    $sql = "UPDATE usuario SET estado='0' WHERE idusuario='$idusuario' ";
+
+   // UPDATE reporte SET estado='0' WHERE idreporte='$idreporte'
 
     $eliminar= ejecutarConsulta($sql);
         
@@ -143,8 +149,7 @@ class Usuario
     return ejecutarConsulta($sql);
   }
 
-  public function mostrar_cargo_trabajador($id_trabajador)
-  {
+  public function mostrar_cargo_trabajador($id_trabajador) {
     $sql = "SELECT t.idtrabajador, ct.nombre as cargo FROM trabajador as t, cargo_trabajador as ct WHERE t.idcargo_trabajador= ct.idcargo_trabajador AND t.idtrabajador='$id_trabajador';";
     return ejecutarConsultaSimpleFila($sql);
   }

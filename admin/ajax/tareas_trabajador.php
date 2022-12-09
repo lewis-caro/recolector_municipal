@@ -40,7 +40,7 @@
           $rspta = $tareas_trabajador->barras_reporte();
           echo json_encode($rspta, true);
         break;
-
+//Modificado jhey
         case 'tarea_ph':
           $rspta = $tareas_trabajador->tarea_ph();
           echo json_encode($rspta, true);
