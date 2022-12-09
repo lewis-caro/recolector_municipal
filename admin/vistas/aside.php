@@ -63,15 +63,8 @@
 
                       <li><a><i class="fa fa-desktop"></i> Designar Zona <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="general_elements.html">General Elements</a></li>
+                          <li><a href="reportes_residuo.php">Reportes Residuo</a></li>
                           <li><a href="agregar_zona.php">Crear Zona</a></li>
-                          <li><a href="typography.html">Typography</a></li>
-                          <li><a href="icons.html">Icons</a></li>
-                          <li><a href="glyphicons.html">Glyphicons</a></li>
-                          <li><a href="widgets.html">Widgets</a></li>
-                          <li><a href="invoice.html">Invoice</a></li>
-                          <li><a href="inbox.html">Inbox</a></li>
-                          <li><a href="calendar.html">Calendar</a></li>
                         </ul>
                       </li>
 

@@ -260,8 +260,8 @@
                             </form>
                           </div>
                           <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" onclick="limpiar_form_usuario();">Close</button>
-                            <button type="submit" class="btn btn-success" id="guardar_registro_usuario">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" onclick="limpiar_form_usuario();" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success" id="guardar_registro">Guardar Cambios</button>
                           </div>
                         </div>
                       </div>

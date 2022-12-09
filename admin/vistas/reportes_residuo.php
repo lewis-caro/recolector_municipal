@@ -16,9 +16,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="../dist/svg/logo-icono.svg" type="image/ico" />
 
-        <title>Reporte | Admin</title>
+        <title>Reporte Civil | Admin</title>
 
-        <?php $title = "Reporte Civil"; require 'head.php'; ?>
+        <?php $title = "Reportes Residuo"; require 'head.php'; ?>
 
         <style>
           .body {
@@ -40,7 +40,7 @@
             require 'nav.php';
             
             //-----------Navegador y Menú ----------------
-            if ($_SESSION['reportes'] == 1) {
+            if ($_SESSION['designar'] == 1) {
                 //-----------------------------
               ?>
               <!-- page content -->
@@ -49,7 +49,7 @@
                   <!-------------- Titulo y Buscador------------->
                   <div class="page-title">
                     <div class="title_left">
-                      <h3>Reporte</h3>
+                      <h3>Reporte Civil</h3>
                     </div>
 
                     <div class="title_right">

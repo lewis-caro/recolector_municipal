@@ -200,7 +200,7 @@
             "6" => $value['email'],
             "7" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
             "8"  =>  
-            '<button class="btn btn-primary btn-sm" onclick="cargar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
+            '<button class="btn btn-primary btn-sm" onclick="mostrar(' . $value['idusuario'] . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></button>' . 
             '<button class="btn btn-danger  btn-sm" onclick="eliminar(' . $value['idusuario'] . ',\''.$value['nombres'].'\')" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-trash"></i></button>',
             
             /*"9"  => $value['estado'] ? 

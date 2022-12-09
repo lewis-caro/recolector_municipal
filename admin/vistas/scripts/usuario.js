@@ -19,7 +19,7 @@ function init() {
   
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
-  $("#guardar_registro_usuario").on("click", function (e) {  $("#submit-form-usuario").submit(); });
+  $("#guardar_registro").on("click", function (e) {  $("#submit-form-usuario").submit(); });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════  
 
@@ -176,7 +176,7 @@ function guardar_y_editar_usuario(e) {
           tabla.ajax.reload(null, false);
           show_hide_form(1); limpiar_form_usuario(); 
           sw_success('Correcto!', "Usuario guardado correctamente." );
-          $("#guardar_registro_usuario").html('Guardar Cambios').removeClass('disabled');
+          $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
           $('#modal-agregar-usuario').modal('hide');
         } else {
           ver_errores(d);
@@ -218,50 +218,44 @@ function guardar_y_editar_usuario(e) {
 
 function mostrar(idusuario) {
   $(".tooltip").removeClass("show").addClass("hidde");
-  $(".trabajador-name").html(`<i class="fas fa-spinner fa-pulse fa-2x"></i>`);  
+  limpiar_form_trabajador();  
 
-  limpiar_form_usuario();  
-
-  $(".modal-title").html("Editar usuario");
-  $("#trabajador").val("").trigger("change"); 
-  $("#trabajador_c").html(`Trabajador <b class="text-danger">(Selecione nuevo) </b>`);
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
 
-  // Removemos la validacion
-  $("#trabajador").rules('remove', 'required');
-  $("#password").rules('remove', 'required');
+  $("#modal-agregar-usuario").modal("show")
 
-  show_hide_form(2);
+  $.post("../ajax/usuario.php?op=mostrar", { idusuario: isuario }, function (e, status) {
 
-  $("#permisos").html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
+    e = JSON.parse(e);  console.log(e);   
 
-  $.post("../ajax/usuario.php?op=mostrar", { idusuario: idusuario }, function (data, status) {
+    if (e.status == true) {       
 
-    data = JSON.parse(data);  console.log(data); 
+      $("#dni").val(e.data.dni).trigger("change");
+      $("#nombre_usuario").val(e.data.nombres).trigger("change");
+      $("#edad").val(e.data.edad);
+      $("#telefono").val(e.data.telefono);
+      $("#idtipo_persona").val(e.data.idtipo_persona);
+      $("#login").val(e.data.login);
+      $("#password").val(e.data.password);
+      $("#email").val(e.data.email);      
+      $("#idzonas").val(e.data.idzonas);
+      $("#direccion").val(e.data.direccion);
+      $("#idusuario").val(e.data.idusuario);   
 
-    $(".trabajador-name").html(` <i class="fas fa-users-cog text-primary"></i> <b class="texto-parpadeante font-size-20px">${data.data.nombres}</b> `);    
+      if (e.data.imagen_perfil!="") {
+        $("#foto1_i").attr("src", "../dist/docs/trabajador/perfil/" + e.data.imagen_perfil);
+        $("#foto1_actual").val(e.data.imagen_perfil);
+      }
+      calcular_edad('#nacimiento','.edad','#edad'); 
 
-    $("#trabajador_old").val(data.data.idtrabajador);
-    $("#cargo").val(data.data.cargo).trigger("change");
-    $("#login").val(data.data.login);
-    $("#password-old").val(data.data.password);
-    $("#idusuario").val(data.data.idusuario);
+      $("#cargando-1-fomulario").show();
+      $("#cargando-2-fomulario").hide();
 
-    $("#cargando-1-fomulario").show();
-    $("#cargando-2-fomulario").hide();    
-
-  }).fail( function(e) { console.log(e); ver_errores(e); } );
-
-  //Permiso
-  $.post(`../ajax/usuario.php?op=permisos&id=${idusuario}`, function (r) {
-
-    r = JSON.parse(r); console.log(r);
-
-    if (r.status) { $("#permisos").html(r.data); } else { ver_errores(e); }
-    //$("#permiso_4").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-    
-  }).fail( function(e) { console.log(e); ver_errores(e); } );
+    } else {
+      ver_errores(e);
+    }    
+  }).fail( function(e) { ver_errores(e); } );
 }
 
 //Función para desactivar registros
@@ -305,7 +299,7 @@ function eliminar(idusuario,nombre) {
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   T R A B A J A D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 function limpiar_form_usuario() {
 
-  $("#guardar_registro_usuario").html('Guardar Cambios').removeClass('disabled');
+  $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
